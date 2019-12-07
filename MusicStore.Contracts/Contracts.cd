@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="MusicStore.Contracts.IAlbum">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IAlbum.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicStore.Contracts.ITrack">
+    <Position X="4.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAACAIEAAAAAAAAAAgAAAAAAAAAAIAEAAAAA=</HashCode>
+      <FileName>ITrack.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicStore.Contracts.IGenre">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IGenre.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicStore.Contracts.IArtist">
+    <Position X="1.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IArtist.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicStore.Contracts.IIdentifiable">
+    <Position X="1.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IIdentifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MusicStore.Contracts.ICopyable&lt;T&gt;">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ICopyable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

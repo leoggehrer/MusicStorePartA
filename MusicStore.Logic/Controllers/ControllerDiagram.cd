@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MusicStore.Logic.Controllers.ControllerObject">
+    <Position X="1" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAjAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Controllers\ControllerObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicStore.Logic.Controllers.GenericController&lt;E, I&gt;">
+    <Position X="1" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>iAVgAmAACAAABEAAAABACwQAAAEAAEgAgkAAAIABIIA=</HashCode>
+      <FileName>Controllers\GenericController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicStore.Logic.Controllers.Persistence.AlbumController">
+    <Position X="3.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Persistence\AlbumController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicStore.Logic.Controllers.Persistence.ArtistController">
+    <Position X="5.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Persistence\ArtistController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicStore.Logic.Controllers.Persistence.GenreController">
+    <Position X="8.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Persistence\GenreController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicStore.Logic.Controllers.Persistence.MusicStoreController&lt;E, I&gt;">
+    <Position X="6" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Persistence\MusicStoreController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicStore.Logic.Controllers.Persistence.TrackController">
+    <Position X="7" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Persistence\TrackController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

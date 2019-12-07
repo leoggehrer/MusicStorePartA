@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MusicStore.Logic.Entities.IdentityObject">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\IdentityObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicStore.Logic.Entities.Persistence.Album">
+    <Position X="4.75" Y="7.25" Width="1.5" />
+    <InheritanceLine Type="MusicStore.Logic.Entities.IdentityObject" ManuallyRouted="true">
+      <Path>
+        <Point X="1.25" Y="1.603" />
+        <Point X="1.25" Y="6.521" />
+        <Point X="5.5" Y="6.521" />
+        <Point X="5.5" Y="7.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAEAAAAAAEQAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Persistence\Album.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Artist" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Tracks" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicStore.Logic.Entities.Persistence.Artist">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <InheritanceLine Type="MusicStore.Logic.Entities.IdentityObject" ManuallyRouted="true">
+      <Path>
+        <Point X="1.25" Y="1.603" />
+        <Point X="1.25" Y="7.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQQAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Entities\Persistence\Artist.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Albums" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicStore.Logic.Entities.Persistence.Genre">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <InheritanceLine Type="MusicStore.Logic.Entities.IdentityObject" ManuallyRouted="true">
+      <Path>
+        <Point X="1.25" Y="1.603" />
+        <Point X="1.25" Y="2.75" />
+        <Point X="2.5" Y="2.75" />
+        <Point X="2.5" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Persistence\Genre.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Tracks" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicStore.Logic.Entities.Persistence.Track">
+    <Position X="5.25" Y="2.75" Width="1.5" />
+    <InheritanceLine Type="MusicStore.Logic.Entities.IdentityObject" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="1.603" />
+        <Point X="1.25" Y="2.062" />
+        <Point X="6" Y="2.062" />
+        <Point X="6" Y="2.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAACAIEAAAAIAAQAAgAAAAAAAAAAICEAAAAA=</HashCode>
+      <FileName>Entities\Persistence\Track.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Genre" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

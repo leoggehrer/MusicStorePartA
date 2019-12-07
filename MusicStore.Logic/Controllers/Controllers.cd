@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MusicStore.Logic.Controllers.ControllerObject">
+    <Position X="0.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAjAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Controllers\ControllerObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicStore.Logic.Controllers.GenreController">
+    <Position X="0.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\GenreController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicStore.Logic.Controllers.ArtistController">
+    <Position X="5.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\ArtistController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicStore.Logic.Controllers.GenericController&lt;E, I&gt;">
+    <Position X="3.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgAuAACAAABAAAAAAAAAAAAAEAAEAAggAAAAABAIA=</HashCode>
+      <FileName>Controllers\GenericController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicStore.Logic.Controllers.MusicStoreController&lt;E, I&gt;">
+    <Position X="3.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\MusicStoreController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="MusicStore.Logic.IController&lt;T&gt;">
+    <Position X="6.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAMAAAAAAAAAAAAAAAAAAAAEAAEAAAgAAAAAAAIA=</HashCode>
+      <FileName>IController.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

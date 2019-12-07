@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MusicStore.Logic.DataContext.ContextObject">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAMAAACAAAAAAAAAAAAQAAAEAAEAAAAAAAgAAAAA=</HashCode>
+      <FileName>DataContext\ContextObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicStore.Logic.DataContext.FileHelper">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAABAAAAAABAAAAAAAQAEAASBBABAAAAAAAEAAAAA=</HashCode>
+      <FileName>DataContext\FileHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicStore.Logic.DataContext.FileContext">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAICQAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>DataContext\FileContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicStore.Logic.DataContext.MusicStoreFileContext">
+    <Position X="2.75" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AgQAAEAAAEAABABAABIAAAQCQAEAAEAIAEAACABCAIA=</HashCode>
+      <FileName>DataContext\MusicStoreFileContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicStore.Logic.DataContext.Csv.CsvMusicStoreContext">
+    <Position X="0.5" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AgAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataContext\Csv\CsvMusicStoreContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicStore.Logic.DataContext.Db.DbMusicStoreContext">
+    <Position X="8.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAAMAAAUAAAAAAAgJAEAQAEAEAAEAAAGAACAAAAAA=</HashCode>
+      <FileName>DataContext\Db\DbMusicStoreContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MusicStore.Logic.DataContext.Ser.SerMusicStoreContext">
+    <Position X="5.25" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AgAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataContext\Ser\SerMusicStoreContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="MusicStore.Logic.DataContext.IMusicStoreContext">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAIAAAAAAAAAAAAAAEAACAAAAAA=</HashCode>
+      <FileName>DataContext\IMusicStoreContext.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
