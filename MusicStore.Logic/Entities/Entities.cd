@@ -9,13 +9,13 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MusicStore.Logic.Entities.Persistence.Album">
-    <Position X="4.75" Y="7.25" Width="1.5" />
+    <Position X="4.75" Y="7.5" Width="1.5" />
     <InheritanceLine Type="MusicStore.Logic.Entities.IdentityObject" ManuallyRouted="true">
       <Path>
         <Point X="1.25" Y="1.603" />
         <Point X="1.25" Y="6.521" />
         <Point X="5.5" Y="6.521" />
-        <Point X="5.5" Y="7.25" />
+        <Point X="5.5" Y="7.5" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>

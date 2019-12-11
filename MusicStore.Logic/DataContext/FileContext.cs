@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using CommonBase.Extensions;
+using CommonBase.Helpers;
 
 namespace MusicStore.Logic.DataContext
 {
     internal abstract class FileContext : ContextObject
     {
+        public string CsvFolderName => "CsvData";
+        public string SerFolderName => "SerData";
+        
         protected IEnumerable<T> GetSaveItems<T>(IEnumerable<T> source) where T : Entities.IdentityObject
         {
             if (source == null)
@@ -25,23 +29,23 @@ namespace MusicStore.Logic.DataContext
             return result;
         }
 
-        protected static List<T> LoadFromCsv<T>() where T : class, new()
+        protected List<T> LoadFromCsv<T>() where T : class, new()
         {
-            return new List<T>(FileHelper.ReadFromCsv<T>(FileHelper.GetCsvFilePath(typeof(T))));
+            return new List<T>(FileHelper.ReadFromCsv<T>(FileHelper.GetCsvFilePath(CsvFolderName, typeof(T))));
         }
 
         protected IEnumerable<T> SaveToCsv<T>(IEnumerable<T> source) where T : Entities.IdentityObject
         {
             IEnumerable<T> result = GetSaveItems<T>(source);
-            string filePath = FileHelper.GetCsvFilePath(typeof(T));
+            string filePath = FileHelper.GetCsvFilePath(CsvFolderName, typeof(T));
 
             FileHelper.WriteToCsv<T>(filePath, result.ToArray());
             return result;
         }
 
-        protected static List<T> LoadFromSer<T>() where T : class, new()
+        protected List<T> LoadFromSer<T>() where T : class, new()
         {
-            string filePath = FileHelper.GetSerFilePath(typeof(T));
+            string filePath = FileHelper.GetSerFilePath(SerFolderName, typeof(T));
 
             return new List<T>(FileHelper.Deserialize<T>(filePath));
         }
@@ -49,7 +53,7 @@ namespace MusicStore.Logic.DataContext
         protected IEnumerable<T> SaveToSer<T>(IEnumerable<T> source) where T : Entities.IdentityObject
         {
             IEnumerable<T> result = GetSaveItems<T>(source);
-            string filePath = FileHelper.GetSerFilePath(typeof(T));
+            string filePath = FileHelper.GetSerFilePath(SerFolderName, typeof(T));
 
             FileHelper.Serialize(filePath, result);
             return result;

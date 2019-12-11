@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MusicStore.Contracts.Client;
+using System;
 
 namespace MusicStore.Logic
 {
@@ -30,56 +31,56 @@ namespace MusicStore.Logic
             return result;
         }
 
-        public static IController<T> Create<T>() where T : Contracts.IIdentifiable
+        public static IControllerAccess<T> Create<T>() where T : Contracts.IIdentifiable
         {
-            IController<T> result = null;
+            IControllerAccess<T> result = null;
 
             if (typeof(T) == typeof(Contracts.Persistence.IGenre))
             {
-                result = (IController<T>)CreateGenreController();
+                result = (IControllerAccess<T>)CreateGenreController();
             }
             else if (typeof(T) == typeof(Contracts.Persistence.IArtist))
             {
-                result = (IController<T>)CreateArtistController();
+                result = (IControllerAccess<T>)CreateArtistController();
             }
             else if (typeof(T) == typeof(Contracts.Persistence.IAlbum))
             {
-                result = (IController<T>)CreateAlbumController();
+                result = (IControllerAccess<T>)CreateAlbumController();
             }
             else if (typeof(T) == typeof(Contracts.Persistence.ITrack))
             {
-                result = (IController<T>)CreateTrackController();
+                result = (IControllerAccess<T>)CreateTrackController();
             }
             return result;
         }
-        public static IController<T> Create<T>(object sharedController) where T : Contracts.IIdentifiable
+        public static IControllerAccess<T> Create<T>(object sharedController) where T : Contracts.IIdentifiable
         {
-            IController<T> result = null;
+            IControllerAccess<T> result = null;
 
             if (typeof(T) == typeof(Contracts.Persistence.IGenre))
             {
-                result = (IController<T>)CreateGenreController(sharedController);
+                result = (IControllerAccess<T>)CreateGenreController(sharedController);
             }
             else if (typeof(T) == typeof(Contracts.Persistence.IArtist))
             {
-                result = (IController<T>)CreateArtistController(sharedController);
+                result = (IControllerAccess<T>)CreateArtistController(sharedController);
             }
             else if (typeof(T) == typeof(Contracts.Persistence.IAlbum))
             {
-                result = (IController<T>)CreateAlbumController(sharedController);
+                result = (IControllerAccess<T>)CreateAlbumController(sharedController);
             }
             else if (typeof(T) == typeof(Contracts.Persistence.ITrack))
             {
-                result = (IController<T>)CreateTrackController(sharedController);
+                result = (IControllerAccess<T>)CreateTrackController(sharedController);
             }
             return result;
         }
 
-        public static IController<Contracts.Persistence.IGenre> CreateGenreController()
+        public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController()
         {
             return new Controllers.Persistence.GenreController(CreateContext());
         }
-		public static IController<Contracts.Persistence.IGenre> CreateGenreController(object sharedController)
+		public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController(object sharedController)
 		{
 			if (sharedController == null)
 				throw new ArgumentNullException(nameof(sharedController));
@@ -89,11 +90,11 @@ namespace MusicStore.Logic
 			return new Controllers.Persistence.GenreController(controller);
 		}
 
-		public static IController<Contracts.Persistence.IArtist> CreateArtistController()
+		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController()
 		{
 			return new Controllers.Persistence.ArtistController(CreateContext());
 		}
-		public static IController<Contracts.Persistence.IArtist> CreateArtistController(object sharedController)
+		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController(object sharedController)
 		{
 			if (sharedController == null)
 				throw new ArgumentNullException(nameof(sharedController));
@@ -103,11 +104,11 @@ namespace MusicStore.Logic
 			return new Controllers.Persistence.ArtistController(controller);
 		}
 
-        public static IController<Contracts.Persistence.IAlbum> CreateAlbumController()
+        public static IControllerAccess<Contracts.Persistence.IAlbum> CreateAlbumController()
         {
             return new Controllers.Persistence.AlbumController(CreateContext());
         }
-        public static IController<Contracts.Persistence.IAlbum> CreateAlbumController(object sharedController)
+        public static IControllerAccess<Contracts.Persistence.IAlbum> CreateAlbumController(object sharedController)
         {
             if (sharedController == null)
                 throw new ArgumentNullException(nameof(sharedController));
@@ -117,11 +118,11 @@ namespace MusicStore.Logic
             return new Controllers.Persistence.AlbumController(controller);
         }
 
-        public static IController<Contracts.Persistence.ITrack> CreateTrackController()
+        public static IControllerAccess<Contracts.Persistence.ITrack> CreateTrackController()
         {
             return new Controllers.Persistence.TrackController(CreateContext());
         }
-        public static IController<Contracts.Persistence.ITrack> CreateTrackController(object sharedController)
+        public static IControllerAccess<Contracts.Persistence.ITrack> CreateTrackController(object sharedController)
         {
             if (sharedController == null)
                 throw new ArgumentNullException(nameof(sharedController));

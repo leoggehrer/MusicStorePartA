@@ -8,26 +8,25 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using CommonBase.Extensions;
 
-namespace MusicStore.Logic.DataContext
+namespace CommonBase.Helpers
 {
-    internal static class FileHelper
+    public static class FileHelper
     {
         internal static string Separator = ";";
-        internal static string CsvFolder = "CsvData";
-        internal static string SerFolder = "SerData";
 
-        internal static string GetCsvFileName(Type type)
+        public static string GetCsvFileName(Type type)
         {
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
             return $"{type.Name}.csv";
         }
-        internal static string GetCsvFilePath(Type type)
+        public static string GetCsvFilePath(string csvFolderName, Type type)
         {
-            return Path.Combine(AppContext.BaseDirectory, CsvFolder, GetCsvFileName(type));
+            return Path.Combine(AppContext.BaseDirectory, csvFolderName, GetCsvFileName(type));
         }
-        internal static IEnumerable<T> ReadFromCsv<T>(string filePath) where T : class, new()
+
+        public static IEnumerable<T> ReadFromCsv<T>(string filePath) where T : class, new()
         {
             List<T> result = new List<T>();
 
@@ -39,7 +38,7 @@ namespace MusicStore.Logic.DataContext
 
             return result;
         }
-        internal static void WriteToCsv<T>(string filePath, IEnumerable<T> source)
+        public static void WriteToCsv<T>(string filePath, IEnumerable<T> source)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -85,16 +84,16 @@ namespace MusicStore.Logic.DataContext
             File.WriteAllLines(filePath, lines.ToArray(), Encoding.UTF8);
         }
 
-        internal static string GetSerFileName(Type type)
+        public static string GetSerFileName(Type type)
         {
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
             return $"{type.Name}.ser";
         }
-        internal static string GetSerFilePath(Type type)
+        public static string GetSerFilePath(string serFolderName, Type type)
         {
-            string serFolder = Path.Combine(AppContext.BaseDirectory, SerFolder);
+            string serFolder = Path.Combine(AppContext.BaseDirectory, serFolderName);
 
             if (Directory.Exists(serFolder) == false)
             {
@@ -103,7 +102,7 @@ namespace MusicStore.Logic.DataContext
             return Path.Combine(serFolder, GetSerFileName(type));
         }
 
-        internal static void Serialize(string filePath, IEnumerable<object> source)
+        public static void Serialize(string filePath, IEnumerable<object> source)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -116,7 +115,7 @@ namespace MusicStore.Logic.DataContext
             }
         }
 
-        internal static IEnumerable<T> Deserialize<T>(string filePath) where T : class, new()
+        public static IEnumerable<T> Deserialize<T>(string filePath) where T : class, new()
         {
             IEnumerable<T> result = null;
 

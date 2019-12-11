@@ -25,25 +25,6 @@ namespace MusicStore.Logic.DataContext
         public abstract void Save();
         #endregion Sync-Methods
 
-        #region Async-Methods
-        public abstract Task<int> CountAsync<I, E>()
-            where I : IIdentifiable
-            where E : IdentityObject, I;
-        public abstract Task<E> CreateAsync<I, E>()
-            where I : IIdentifiable
-            where E : IdentityObject, I, ICopyable<I>, new();
-        public abstract Task<E> InsertAsync<I, E>(I entity)
-            where I : IIdentifiable
-            where E : IdentityObject, ICopyable<I>, I, new();
-        public abstract Task<E> UpdateAsync<I, E>(I entity)
-            where I : IIdentifiable
-            where E : IdentityObject, I, ICopyable<I>, new();
-        public abstract Task<E> DeleteAsync<I, E>(int id)
-            where I : IIdentifiable
-            where E : IdentityObject, I;
-        public abstract Task SaveAsync();
-        #endregion Async-Methods
-
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 

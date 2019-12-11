@@ -99,36 +99,6 @@ namespace MusicStore.Logic.DataContext
         }
         #endregion Sync-Methods
 
-        #region Async-Methods
-		// Falls die synchronen Methoden entfernt werden soll,
-		// dann werden diese private spezifiziert und aus dem 
-		// Interface entfernt.
-        public override Task<int> CountAsync<I, E>()
-        {
-            return Task.Run(() => Count<I, E>());
-        }
-        public override Task<E> CreateAsync<I, E>()
-        {
-            return Task.Run(() => Create<I, E>());
-        }
-        public override Task<E> InsertAsync<I, E>(I entity)
-        {
-            entity.CheckArgument(nameof(entity));
-
-			return Task.Run(() => Insert<I, E>(entity));
-        }
-        public override Task<E> UpdateAsync<I, E>(I entity)
-        {
-            entity.CheckArgument(nameof(entity));
-
-			return Task.Run(() => Update<I, E>(entity));
-        }
-        public override Task<E> DeleteAsync<I, E>(int id)
-        {
-			return Task.Run(() => Delete<I, E>(id));
-        }
-        #endregion Async-Methods
-
         #region Helpers
         protected List<E> Set<I, E>()
             where I : Contracts.IIdentifiable
