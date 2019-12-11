@@ -79,6 +79,9 @@ namespace MusicStore.Logic.DataContext.Db
                 .Property(p => p.Title)
                 .IsRequired()
                 .HasMaxLength(1024);
+            modelBuilder.Entity<Track>()
+                .Property(p => p.Composer)
+                .HasMaxLength(512);
         }
         #endregion Configuration
 

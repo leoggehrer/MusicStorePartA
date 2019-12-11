@@ -12,6 +12,7 @@ namespace MusicStore.Logic
             Ser,
         }
         public static PersistenceType Persistence { get; set; } = Factory.PersistenceType.Csv;
+
         private static DataContext.IContext CreateContext()
         {
             DataContext.IContext result = null;
