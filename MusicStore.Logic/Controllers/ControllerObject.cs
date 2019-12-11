@@ -3,7 +3,7 @@ using MusicStore.Logic.DataContext;
 
 namespace MusicStore.Logic.Controllers
 {
-    internal abstract class ControllerObject : IDisposable
+    internal abstract partial class ControllerObject : IDisposable
     {
 		private bool contextDispose;
         protected IContext Context { get; private set; }

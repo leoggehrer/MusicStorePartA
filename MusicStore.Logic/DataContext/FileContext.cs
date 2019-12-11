@@ -6,7 +6,7 @@ using CommonBase.Helpers;
 
 namespace MusicStore.Logic.DataContext
 {
-    internal abstract class FileContext : ContextObject
+    internal abstract partial class FileContext : ContextObject
     {
         public string CsvFolderName => "CsvData";
         public string SerFolderName => "SerData";

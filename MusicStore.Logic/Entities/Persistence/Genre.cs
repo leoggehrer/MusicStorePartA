@@ -5,7 +5,7 @@ using MusicStore.Contracts;
 namespace MusicStore.Logic.Entities.Persistence
 {
     /// <summary>
-    /// Implements the properties and methods of identifiable model.
+    /// Implements the properties and methods of genre model.
     /// </summary>
     [Serializable]
     partial class Genre : IdentityObject, Contracts.Persistence.IGenre, ICopyable<Contracts.Persistence.IGenre>

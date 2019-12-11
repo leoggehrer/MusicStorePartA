@@ -7,7 +7,7 @@ using MusicStore.Logic.Entities.Persistence;
 
 namespace MusicStore.Logic.DataContext.Db
 {
-    internal class DbMusicStoreContext : DbContext, IContext, IMusicStoreContext
+    internal partial class DbMusicStoreContext : DbContext, IContext, IMusicStoreContext
     {
         private static string ConnectionString { get; set; } = "Data Source=(localdb)\\MSSQLLocalDb;Database=MusicStoreDb;Integrated Security=True;";
 

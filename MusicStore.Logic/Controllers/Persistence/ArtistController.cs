@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MusicStore.Logic.Controllers.Persistence
 {
-    class ArtistController : MusicStoreController<Entities.Persistence.Artist, Contracts.Persistence.IArtist>
+    internal partial class ArtistController : MusicStoreController<Entities.Persistence.Artist, Contracts.Persistence.IArtist>
 	{
         protected override IEnumerable<Entities.Persistence.Artist> Set => MusicStoreContext.Artists;
 

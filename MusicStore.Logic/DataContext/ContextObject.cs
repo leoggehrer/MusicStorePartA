@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace MusicStore.Logic.DataContext
 {
-    internal abstract class ContextObject : IContext
+    internal abstract partial class ContextObject : IContext
     {
         #region Sync-Methods
         public abstract int Count<I, E>()

@@ -3,7 +3,7 @@ using MusicStore.Logic.DataContext;
 
 namespace MusicStore.Logic.Controllers.Persistence
 {
-    internal class GenreController : MusicStoreController<Entities.Persistence.Genre, Contracts.Persistence.IGenre>
+    internal partial class GenreController : MusicStoreController<Entities.Persistence.Genre, Contracts.Persistence.IGenre>
     {
         protected override IEnumerable<Entities.Persistence.Genre> Set => MusicStoreContext.Genres;
 

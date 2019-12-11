@@ -3,7 +3,7 @@ using MusicStore.Logic.Entities.Persistence;
 
 namespace MusicStore.Logic.DataContext
 {
-    internal interface IMusicStoreContext
+    internal partial interface IMusicStoreContext
     {
         IEnumerable<Genre> Genres { get; }
         IEnumerable<Artist> Artists { get; }

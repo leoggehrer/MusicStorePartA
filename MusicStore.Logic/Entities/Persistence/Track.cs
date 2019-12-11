@@ -4,7 +4,7 @@ using MusicStore.Contracts;
 namespace MusicStore.Logic.Entities.Persistence
 {
     /// <summary>
-    /// Implements the properties and methods of identifiable model.
+    /// Implements the properties and methods of track model.
     /// </summary>
     [Serializable]
     partial class Track : IdentityObject, Contracts.Persistence.ITrack, ICopyable<Contracts.Persistence.ITrack>

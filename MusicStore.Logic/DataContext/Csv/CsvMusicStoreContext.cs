@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace MusicStore.Logic.DataContext.Csv
 {
-    internal class CsvMusicStoreContext : MusicStoreFileContext
+    internal partial class CsvMusicStoreContext : MusicStoreFileContext
     {
         public CsvMusicStoreContext()
         {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace MusicStore.Logic.DataContext.Ser
 {
-    internal class SerMusicStoreContext : MusicStoreFileContext
+    internal partial class SerMusicStoreContext : MusicStoreFileContext
     {
         public SerMusicStoreContext()
         {
