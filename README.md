@@ -1,7 +1,5 @@
 # MusicStore
-Das Projekt 'MusicStore' ist ein kleines datenzentriertes Anwendungsbeispiel mit welchem die Erstellung eines  
-Software-Systems dargestellt werden soll. Aufgrund der Komplexität, die ein Software-System im Allgemeinem darstellt, 
-ist die Erstellung des Beispiels in mehreren Abschnitten unterteilt. Die Aufteilung ist wie folgt definiert:  
+Das Projekt 'MusicStore' ist ein kleines datenzentriertes Anwendungsbeispiel mit welchem die Erstellung eines Software-Systems dargestellt werden soll. Aufgrund der Komplexität, die ein Software-System im Allgemeinem darstellt, ist die Erstellung des Beispiels in mehreren Abschnitten unterteilt. Die Aufteilung ist wie folgt definiert:  
 
 + **Teil A** bildet die Basis des Systems und wird in den weiteren Ausbaustufen erweitert 
 + **Teil B** ist die Erweiterung von Teil A mit asynchronen Methoden
@@ -12,19 +10,22 @@ ist die Erstellung des Beispiels in mehreren Abschnitten unterteilt. Die Aufteil
 + Teil G (in Bearbeitung) zeigt wie die gesamte Anwendungsstruktur durch den Einsatz eines Code-Generator unterstützt werden kann
 
 ## Das Projekt
-Zur Umsetzung des Projektes wird DotNetCore (3.0) als Framework, die Programmiersprache CSharp (C#) und die Entwicklungsumgebung 
-Visual Studio 2019 Community verwendet.
+Zur Umsetzung des Projektes wird DotNetCore (3.0) als Framework, die Programmiersprache CSharp (C#) und die Entwicklungsumgebung Visual Studio 2019 Community verwendet. Alle Komponenten können kostenlos aus dem Internet heruntergeladen werden.
 
 ### Die Projektstruktur
-Als Domainname wird 'MusicStore' verwendet und das Gesamtprojekt wird in Teilprojekte unterteilt. Die Aufteilung erfolgt nach 
-der folgenden Struktur:  
+Als Domainname wird 'MusicStore' verwendet und steht für die Gesamtlösung 'MusicStore'. Das Gesamtprojekt wird in Teilprojekte unterteilt wobei jedes bestimmten Lösunge für einen Teilbereich der Gesamtlösung beinhaltet. Als Namenskonvention für solche Projekt gilt die folgende Regel:  
+
++ MusicStore.[Bereich]  
+
+Zum Beispiel wird für den Bereich der Schnittstelle der Name 'MusicStore.Contracts' generiert. In diesem Projekt befinden sich alle für die Domäne relevanten Schnittstellen. 
+Die Aufteilung, für den Teil A, erfolgt nach der folgenden Struktur:  
 
 |Projekt|Beschreibung|Typ|Abhängigkeit
 |---|---|---|---|
-|**CommonBase**|In dieser Projekt werden alle Hilfsfunktionen und allgemeine Erweiterungen zusammengefasst. Diese sind unabhängig vom Problembereich und können auch in andere Projekte verwendet werden.|Library|keine
-|**MusicStore.Contracts**|In dieser Projekt werden alle für das System notwendigen Schnittstellen und Enumerationen verwaltet.|Library|keine
-|**MusicStore.Logic**|Dieser Projekt beinhaltet den vollständigen Datenzugriff und die gesamte Geschäftslogik des Systems. |Library|CommonBase, MusicStore.Contracts
-|**MusicStore.ConApp**|Dieser Projekt ist eine einfache Test-Anwendung zum Kopieren und Ausgeben der Daten. |Console|MusicStore.Contracts, MusicStore.Logic
+|**CommonBase**|In dieser Projekt werden alle Hilfsfunktionen und allgemeine Erweiterungen zusammengefasst. Diese sind unabhängig vom Problembereich und können auch in andere Domän-Projekte verwendet werden.|Library|keine
+|**MusicStore.Contracts**|In dieser Projekt werden alle für das System notwendigen Schnittstellen und Enumerationen umgesetzt.|Library|keine
+|**MusicStore.Logic**|Dieser Projekt beinhaltet den vollständigen Datenzugriff, die gesamte Geschäftslogik und stellt somit den zentralen Baustein des Systems dar. |Library|CommonBase, MusicStore.Contracts
+|**MusicStore.ConApp**|Dieses Projekt ist eine einfache Test-Anwendung zum Kopieren und Ausgeben der Daten. |Console|MusicStore.Contracts, MusicStore.Logic
 
  
 ### Die Datenstruktur
@@ -53,22 +54,20 @@ Die Datenstruktur ist überschaulich und besteht im wesentlichen aus 4 Komponente
 Aus dieser Definition kann ein entsprechendes Objektmodell abgeleitet werden. Dieses Model ist im Projekt 'MusicStore.Logic' definiert 
 und befindet sich im Ordner 'Entities/Persistence'. Der Klassendesigner im Visual Studio zeigt folgendes Bild:
 
+![Entity Relations](Installation.md)
 ![Entity Relations](EntityRelations.png)
 
 Wie aus der Abbildung leicht erkennbar ist, sind für alle Entitäten Schnittstellen (IEntitätname) definiert. Diese Schnittstellen sind im Projekt 
-'MusicStore.Contracts' im Ordner 'Persistence' definiert und dienen zur Interaktion mit den Entitäten außerhalb der Bibliothek. Das Model zeigt auch noch 
-eine weitere Schnittstelle mit dem Namen ICopyable mit dem Entitynamen an. Dies bedeutet, dass das Entity aus einem Schnittstellen-Objekt 
+'MusicStore.Contracts' im Ordner 'Persistence' definiert und dienen zur Interaktion mit den Entitäten außerhalb der Bibliothek. Das Model zeigt auch noch eine weitere Schnittstelle mit dem Namen ICopyable mit dem Entitynamen an. Dies bedeutet, dass das Entity aus einem Schnittstellen-Objekt 
 Daten übernehmen kann. Die Entitäten sind von der Sichtbarkeit 'internal' und können nicht außerhalb der Bibliothek verwendet werden.
 
 ### MusicStore.Contracts
 Wie bereits schon erläutert, befinden sich alle öffentlichen Schnittstelle in diesem Projekt. Die Definition der Schnittstellen für die Entities 
-befinden sich im Ordner 'Persistence'. In diesem Ordner befinden sich alle Schnittstellen für die Entitäten welche im Projekt 
-'MusicStore.Logic' definiert sind. Der Klassendesigner zeigt folgendes Model für die Schnittstellen: 
+befinden sich im Ordner 'Persistence'. In diesem Ordner befinden sich alle Schnittstellen für die Entitäten welche im Projekt 'MusicStore.Logic' definiert sind. Der Klassendesigner zeigt folgendes Model für die Schnittstellen: 
 
 ![Scnittstellen](Contracts.png)  
  
-Zu beachten ist, dass keine Schnittstelle die Navigationseigenschaften der Entitäten modelliert. Das ist sehr wichtig, weil dadurch 
-unbeabsichtigte Fehler entstehen können. Die Erklärung erfolgt im Teil C Web-Api (REST). 
+Zu beachten ist, dass keine Schnittstelle die Navigationseigenschaften der Entitäten modelliert. Das ist sehr wichtig, weil dadurch unbeabsichtigte Fehler entstehen können. Die Erklärung erfolgt im Teil C Web-Api (REST). 
 
 ```csharp
 namespace MusicStore.Contracts
@@ -85,9 +84,7 @@ namespace MusicStore.Contracts
     }
 }
 ```  
-Die Schnittstelle 'Identifyable' definiert eine schreibgeschützte Eigenschaft 'Id'. Diese Eigenschaft kann nur innerhalb des Projektes 
-'MusicStore.Logic' verändert werden. Diese Schnittstelle bildet die Basis für alle anderen Schnittstellen vom Typ Entity. Im 
-nachfolgenden wird die Schnittstelle 'IAlbum' stellvertretend für alle Entitäten betrachtet.
+Die Schnittstelle 'Identifyable' definiert eine schreibgeschützte Eigenschaft 'Id'. Diese Eigenschaft kann nur innerhalb des Projektes 'MusicStore.Logic' verändert werden. Diese Schnittstelle bildet die Basis für alle anderen Schnittstellen vom Typ Entity. Im nachfolgenden wird die Schnittstelle 'IAlbum' stellvertretend für alle Entitäten betrachtet.
 
 ```csharp
 namespace MusicStore.Contracts.Persistence
@@ -109,11 +106,9 @@ namespace MusicStore.Contracts.Persistence
 }
 ```  
 Diese Schnittstelle erbt die Schnittstellendefinition von 'IIdentifyable' und ist somit identifizierbar. Weiters ist eine Eigenschaft 'ArtistId' 
-definiert. Diese Eigenschaft beinhaltet die Referenzdaten zum Entity 'Artist'. Die Prüfung auf korrekten Inhalt erfolgt im Projekt 'MusicStore.Logic'.
+definiert. Diese Eigenschaft beinhaltet die Referenzdaten zum Entity 'Artist'. Die Prüfung auf korrekten Inhalt erfolgt im Projekt MusicStore.Logic'.
 
-Im Projekt ist noch eine weiter Schnittstelle definiert. Diese Schnittstelle befindet sich im Ordner 'Client' und stellt den Zugriff 
-auf die Kontroller-Objekt aus dem Projekt 'MusicStore.Logic' dar. Alle Kontroller, im Projekt 'MusicStroe.Logic' implementieren diese 
-Schnittstelle. 
+Im Projekt ist noch eine weiter Schnittstelle definiert. Diese Schnittstelle befindet sich im Ordner 'Client' und stellt den Zugriff auf die Kontroller-Objekt aus dem Projekt 'MusicStore.Logic' dar. Alle Kontroller, im Projekt 'MusicStroe.Logic' implementieren diese Schnittstelle. 
 
 ```csharp
 namespace MusicStore.Contracts.Client
@@ -172,18 +167,12 @@ namespace MusicStore.Contracts.Client
 }
 ```  
 Die Definition der Schnittstelle ist generisch und für diesen genersischen Parameter können alle Schnittstellen vom Typ 'Identifyable' eingestezt werden. 
-Das ist natürlich ein riesen Vorteil weil diese Schnittstelle nur einmal definiert werden muss und für alle Kontroller verwendet werden. Diese 
-Schnittstelle ist von IDisposable abgeleitet. Damit wird folgende Regel in Betracht gezogen. Alle Komponenten, welche eine Ressource beinhalten oder 
-beinhalten könnten müssen diese Schnittstelle implementieren. Aus dieser Regel ergibt sich, dass alle Objekte, welche diese Schnittstelle implementieren, 
-mit dem Schlüsselwort 'using' verwendet werden müssen. Nachdem ein Kontroller einen 'DbContext' binhalten kann, muss dieser ebenfalls wieder freigegeben 
-werden. 
+Das ist natürlich ein riesen Vorteil weil diese Schnittstelle nur einmal definiert werden muss und für alle Kontroller verwendet werden. Diese Schnittstelle ist von IDisposable abgeleitet. Damit wird folgende Regel in Betracht gezogen. Alle Komponenten, welche eine Ressource beinhalten oder beinhalten könnten müssen diese Schnittstelle implementieren. Aus dieser Regel ergibt sich, dass alle Objekte, welche diese Schnittstelle implementieren, mit dem Schlüsselwort 'using' verwendet werden müssen. Nachdem ein Kontroller einen 'DbContext' binhalten kann, muss dieser ebenfalls wieder freigegeben werden. 
 
 ### MusicStore.Logic
-Dieses Projekt nimmt eine zentrale Stellung in dieser System-Architektur ein. Die gesamte Geschäftslogik ist in diesem Projekt implementiert. Aus diesem Grund 
-müssen Änderungen in diesem Projekt mit besonderer Sorgfalt durchgeführt werden. Es gilt folgende Regel:  
+Dieses Projekt nimmt eine zentrale Stellung in dieser System-Architektur ein. Die gesamte Geschäftslogik ist in diesem Projekt implementiert. Aus diesem Grund müssen Änderungen in diesem Projekt mit besonderer Sorgfalt durchgeführt werden. Es gilt folgende Regel:  
 **KEIN OBJEKT DAS DIESE SCHICHT VERLASSEN - NUR SCHNITTSTELLEN!**  
-Aus diesem Grund gibt es eine einzige Klasse die nach außen sichtbar ist. Diese Klasse heißt 'Factory' und beinhaltet die Fabrik-Methoden, welche die Objekt 
-intanziieren und deren Schnittstellen nach außen leiten. Im nachfolgenden - der Code - für die generische Erzeuger-Fabrik-Methode:
+Aus diesem Grund gibt es eine einzige Klasse die nach außen sichtbar ist. Diese Klasse heißt 'Factory' und beinhaltet die Fabrik-Methoden, welche die Objekt intanziieren und deren Schnittstellen nach außen leiten. Im nachfolgenden - der Code - für die generische Erzeuger-Fabrik-Methode:
 
 ```cssharp
 namespace MusicStore.Logic
