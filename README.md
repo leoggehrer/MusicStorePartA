@@ -172,7 +172,9 @@ Das ist natürlich ein riesen Vorteil weil diese Schnittstelle nur einmal defini
 
 ### MusicStore.Logic
 Dieses Projekt nimmt eine zentrale Stellung in dieser System-Architektur ein. Die gesamte Geschäftslogik ist in diesem Projekt implementiert. Aus diesem Grund müssen Änderungen in diesem Projekt mit besonderer Sorgfalt durchgeführt werden. Es gilt folgende Regel:  
-**KEIN OBJEKT DAS DIESE SCHICHT VERLASSEN - NUR SCHNITTSTELLEN!**  
+
+**KEIN OBJEKT DARF DIESE SCHICHT VERLASSEN - NUR SCHNITTSTELLEN!**  
+
 Aus diesem Grund gibt es eine einzige Klasse die nach außen sichtbar ist. Diese Klasse heißt 'Factory' und beinhaltet die Fabrik-Methoden, welche die Objekt intanziieren und deren Schnittstellen nach außen leiten. Im nachfolgenden - der Code - für die generische Erzeuger-Fabrik-Methode:
 
 ```csharp ({"Type": "FileRef", "File": "Logic/Factory.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
