@@ -1,4 +1,5 @@
-﻿namespace MusicStore.Contracts.Persistence
+﻿//MdStart
+namespace MusicStore.Contracts.Persistence
 {
     /// <summary>
     /// This interface defines properties of an album.
@@ -15,3 +16,4 @@
         string Title { get; set; }
     }
 }
+//MdEnd

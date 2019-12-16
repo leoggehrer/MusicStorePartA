@@ -1,5 +1,6 @@
-﻿using MusicStore.Contracts.Client;
+﻿//MdStart
 using System;
+using MusicStore.Contracts.Client;
 
 namespace MusicStore.Logic
 {
@@ -134,3 +135,4 @@ namespace MusicStore.Logic
         }
     }
 }
+//MdEnd

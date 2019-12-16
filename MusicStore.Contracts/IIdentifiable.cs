@@ -1,4 +1,5 @@
-﻿namespace MusicStore.Contracts
+﻿//MdStart
+namespace MusicStore.Contracts
 {
     /// <summary>
     /// Defines the basic properties and methods of identifiable components.
@@ -11,3 +12,4 @@
         int Id { get; }
     }
 }
+//MdEnd
