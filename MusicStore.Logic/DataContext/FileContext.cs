@@ -1,4 +1,6 @@
-﻿using System;
+﻿//@BaseCode
+//MdStart
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommonBase.Extensions;
@@ -60,3 +62,4 @@ namespace MusicStore.Logic.DataContext
         }
     }
 }
+//MdEnd

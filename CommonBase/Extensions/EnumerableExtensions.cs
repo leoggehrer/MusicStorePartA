@@ -1,10 +1,10 @@
-﻿using System;
+﻿//@BaseCode
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CommonBase.Extensions
 {
-    public static class EnumerableExtensions
+    public static partial class EnumerableExtensions
     {
         public static IEnumerable<ST> ToEnumerable<T, ST>(this IEnumerable<T> source, Func<T, ST> expandSelector)
         {

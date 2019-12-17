@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿//@BaseCode
+using System;
 
 namespace CommonBase.Extensions
 {
-    public static class ObjectExtensions
+    public static partial class ObjectExtensions
     {
         public static void CheckArgument(this object source, string argName)
         {

@@ -13,11 +13,11 @@ Das Projekt 'MusicStore' ist ein kleines datenzentriertes Anwendungsbeispiel mit
 Zur Umsetzung des Projektes wird DotNetCore (3.0) als Framework, die Programmiersprache CSharp (C#) und die Entwicklungsumgebung Visual Studio 2019 Community verwendet. Alle Komponenten können kostenlos aus dem Internet heruntergeladen werden.
 
 ### Die Projektstruktur
-Als Domainname wird 'MusicStore' verwendet und steht für die Gesamtlösung 'MusicStore'. Das Gesamtprojekt wird in Teilprojekte unterteilt wobei jedes bestimmten Lösunge für einen Teilbereich der Gesamtlösung beinhaltet. Als Namenskonvention für solche Projekt gilt die folgende Regel:  
+Als Domainname wird 'MusicStore' verwendet und steht für die Gesamtlösung 'MusicStore'. Das Gesamtprojekt wird in Teilprojekte unterteilt wobei jedes bestimmten Lösungen für einen Teilbereich der Gesamtlösung beinhaltet. Als Namenskonvention für solche Projekt gilt die folgende Regel:  
 
-+ MusicStore.[Bereich]  
++ [Domainname].[Bereich] => MusicStore.[Bereich]  
 
-Zum Beispiel wird für den Bereich der Schnittstelle der Name 'MusicStore.Contracts' generiert. In diesem Projekt befinden sich alle für die Domäne relevanten Schnittstellen. 
+Zum Beispiel wird für den Bereich der Schnittstellen der Name 'MusicStore.Contracts' generiert. In diesem Projekt befinden sich alle für die Domäne relevanten Schnittstellen. 
 Die Aufteilung, für den Teil A, erfolgt nach der folgenden Struktur:  
 
 |Projekt|Beschreibung|Typ|Abhängigkeit

@@ -1,4 +1,6 @@
-﻿using System;
+﻿//@BaseCode
+//MdStart
+using System;
 
 namespace MusicStore.Logic.Entities
 {
@@ -13,3 +15,4 @@ namespace MusicStore.Logic.Entities
         public int Id { get; set; }
     }
 }
+//MdEnd

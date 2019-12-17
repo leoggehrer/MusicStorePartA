@@ -1,5 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿//@BaseCode
+//MdStart
+using System;
 using MusicStore.Contracts;
 using MusicStore.Logic.Entities;
 
@@ -32,3 +33,4 @@ namespace MusicStore.Logic.DataContext
         #endregion Sync-Methods
     }
 }
+//MdEnd

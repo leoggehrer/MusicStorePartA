@@ -1,4 +1,6 @@
-﻿using System;
+﻿//@BaseCode
+//MdStart
+using System;
 using MusicStore.Logic.DataContext;
 
 namespace MusicStore.Logic.Controllers
@@ -66,3 +68,4 @@ namespace MusicStore.Logic.Controllers
         #endregion
     }
 }
+//MdEnd
