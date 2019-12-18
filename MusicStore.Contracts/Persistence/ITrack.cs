@@ -1,9 +1,11 @@
-﻿namespace MusicStore.Contracts.Persistence
+﻿//@BaseCode
+//MdStart
+namespace MusicStore.Contracts.Persistence
 {
     /// <summary>
-    /// This interface defines properties of a track.
+    /// Defines all properties of a track.
     /// </summary>
-	public interface ITrack : IIdentifiable
+	public interface ITrack : IIdentifiable, ICopyable<ITrack>
     {
         /// <summary>
         /// Gets or sets the reference id from album.
@@ -35,3 +37,4 @@
         double UnitPrice { get; set; }
     }
 }
+//MdEnd

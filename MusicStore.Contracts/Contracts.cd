@@ -8,42 +8,92 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="MusicStore.Contracts.ICopyable&lt;T&gt;">
-    <Position X="4.75" Y="0.5" Width="1.75" />
+    <Position X="3" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ICopyable.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MusicStore.Contracts.Persistence.IAlbum">
-    <Position X="0.5" Y="2.75" Width="1.25" />
+    <Position X="0.5" Y="3.75" Width="1.25" />
+    <InheritanceLine Type="MusicStore.Contracts.ICopyable&lt;T&gt;" ManuallyRouted="true">
+      <Path>
+        <Point X="3.875" Y="1.603" />
+        <Point X="3.875" Y="2.688" />
+        <Point X="1.125" Y="2.688" />
+        <Point X="1.125" Y="3.75" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAEAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Persistence\IAlbum.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MusicStore.Contracts.Persistence.IArtist">
-    <Position X="3" Y="2.75" Width="1.25" />
+    <Position X="3.25" Y="3.75" Width="1.25" />
+    <InheritanceLine Type="MusicStore.Contracts.IIdentifiable" ManuallyRouted="true">
+      <Path>
+        <Point X="1.125" Y="1.603" />
+        <Point X="1.125" Y="3" />
+        <Point X="3.875" Y="3" />
+        <Point X="3.875" Y="3.75" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Persistence\IArtist.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MusicStore.Contracts.Persistence.IGenre">
-    <Position X="1.5" Y="4.5" Width="1.5" />
+    <Position X="1.75" Y="5.5" Width="1.5" />
+    <InheritanceLine Type="MusicStore.Contracts.IIdentifiable" ManuallyRouted="true">
+      <Path>
+        <Point X="1.125" Y="1.603" />
+        <Point X="1.125" Y="3.317" />
+        <Point X="2.5" Y="3.317" />
+        <Point X="2.5" Y="5.5" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="MusicStore.Contracts.ICopyable&lt;T&gt;" ManuallyRouted="true">
+      <Path>
+        <Point X="3.875" Y="1.603" />
+        <Point X="3.875" Y="3.295" />
+        <Point X="2.5" Y="3.295" />
+        <Point X="2.5" Y="5.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Persistence\IGenre.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MusicStore.Contracts.Persistence.ITrack">
-    <Position X="4" Y="4.5" Width="1.25" />
+    <Position X="5" Y="5.25" Width="1.25" />
+    <InheritanceLine Type="MusicStore.Contracts.IIdentifiable" ManuallyRouted="true">
+      <Path>
+        <Point X="1.125" Y="1.603" />
+        <Point X="1.125" Y="2.358" />
+        <Point X="3.792" Y="2.358" Type="JumpStart" />
+        <Point X="3.958" Y="2.358" Type="JumpEnd" />
+        <Point X="5.625" Y="2.358" />
+        <Point X="5.625" Y="5.25" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="MusicStore.Contracts.ICopyable&lt;T&gt;" ManuallyRouted="true">
+      <Path>
+        <Point X="3.875" Y="1.603" />
+        <Point X="3.875" Y="2.658" />
+        <Point X="5.625" Y="2.658" />
+        <Point X="5.625" Y="5.25" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>IAAAAAAAAACAIEAAAAAAAAAAgAAAAAAAAAAIAEAAAAA=</HashCode>
       <FileName>Persistence\ITrack.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MusicStore.Contracts.Client.IControllerAccess&lt;T&gt;">
-    <Position X="6.25" Y="2.5" Width="1.75" />
+    <Position X="6.5" Y="0.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>gAQAAEAAAAAAAAAAAAAAAAQAAAEAAEAAAgAAAAAAAIA=</HashCode>
       <FileName>Client\IControllerAccess.cs</FileName>

@@ -71,9 +71,9 @@ Zu beachten ist, dass keine Schnittstelle die Navigationseigenschaften der Entit
 namespace MusicStore.Contracts
 {
     /// <summary>
-    /// Defines the basic properties and methods of identifiable components.
+    /// Defines the basic properties of identifiable components.
     /// </summary>
-    public interface IIdentifiable
+    public partial interface IIdentifiable
     {
         /// <summary>
         /// Gets the identity of the component.
@@ -82,18 +82,34 @@ namespace MusicStore.Contracts
     }
 }
 ```  
-Die Schnittstelle 'Identifyable' definiert eine schreibgeschützte Eigenschaft 'Id'. Diese Eigenschaft kann nur innerhalb des Projektes 'MusicStore.Logic' verändert werden. Diese Schnittstelle bildet die Basis für alle anderen Schnittstellen vom Typ Entity. Im nachfolgenden wird die Schnittstelle 'IAlbum' stellvertretend für alle Entitäten betrachtet.
+Die Schnittstelle 'Identifyable' definiert eine schreibgeschützte Eigenschaft 'Id'. Diese Eigenschaft kann nur innerhalb des Projektes 'MusicStore.Logic' verändert werden. Diese Schnittstelle bildet die Basis für alle anderen Schnittstellen vom Typ Entity.  
+
+```csharp ({"Type": "FileRef", "File": "Contracts/ICopyable.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+namespace MusicStore.Contracts
+{
+	/// <summary>
+	/// Defines a generalized copying method for all properties defined by the Type T.
+	/// </summary>
+	/// <typeparam name="T">The type of object to copy.</typeparam>
+	public partial interface ICopyable<T>
+	{
+		void CopyProperties(T other);
+	}
+}
+```  
+
+Im nachfolgenden wird die Schnittstelle 'IAlbum' stellvertretend für alle Entitäten betrachtet.
 
 ```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/IAlbum.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 namespace MusicStore.Contracts.Persistence
 {
     /// <summary>
-    /// This interface defines properties of an album.
+    /// Defines all public properties of an album.
     /// </summary>
-	public interface IAlbum : IIdentifiable
+    public interface IAlbum : IIdentifiable
     {
         /// <summary>
-        /// Gets or sets the reference id from artist.
+        /// Gets or sets the reference id from an artist.
         /// </summary>
         int ArtistId { get; set; }
         /// <summary>

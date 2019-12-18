@@ -8,7 +8,7 @@ namespace MusicStore.Logic.Entities.Persistence
     /// Implements the properties and methods of genre model.
     /// </summary>
     [Serializable]
-    partial class Genre : IdentityObject, Contracts.Persistence.IGenre, ICopyable<Contracts.Persistence.IGenre>
+    partial class Genre : IdentityObject, Contracts.Persistence.IGenre
     {
         public string Name { get; set; }
 

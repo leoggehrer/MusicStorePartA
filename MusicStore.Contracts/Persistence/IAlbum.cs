@@ -1,13 +1,14 @@
-﻿//MdStart
+﻿//@BaseCode
+//MdStart
 namespace MusicStore.Contracts.Persistence
 {
     /// <summary>
-    /// This interface defines properties of an album.
+    /// Defines all public properties of an album.
     /// </summary>
-	public interface IAlbum : IIdentifiable
+    public interface IAlbum : IIdentifiable, ICopyable<IAlbum>
     {
         /// <summary>
-        /// Gets or sets the reference id from artist.
+        /// Gets or sets the reference id from an artist.
         /// </summary>
         int ArtistId { get; set; }
         /// <summary>

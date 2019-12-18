@@ -8,7 +8,7 @@ namespace MusicStore.Logic.Entities.Persistence
     /// Implements the properties and methods of album model.
     /// </summary>
     [Serializable]
-    partial class Album : IdentityObject, Contracts.Persistence.IAlbum, ICopyable<Contracts.Persistence.IAlbum>
+    partial class Album : IdentityObject, Contracts.Persistence.IAlbum
     {
         public int ArtistId { get; set; }
         public string Title { get; set; }
