@@ -1,5 +1,6 @@
-﻿using System;
-using MusicStore.Contracts;
+﻿//@BaseCode
+//MdStart
+using System;
 
 namespace MusicStore.Logic.Entities.Persistence
 {
@@ -36,3 +37,4 @@ namespace MusicStore.Logic.Entities.Persistence
 		public Genre Genre { get; set; }
     }
 }
+//MdStart

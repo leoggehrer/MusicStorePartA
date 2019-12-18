@@ -1,6 +1,7 @@
-﻿using System;
+﻿//@BaseCode
+//MdStart
+using System;
 using System.Collections.Generic;
-using MusicStore.Contracts;
 
 namespace MusicStore.Logic.Entities.Persistence
 {
@@ -26,3 +27,4 @@ namespace MusicStore.Logic.Entities.Persistence
 		public IEnumerable<Track> Tracks { get; set; }
     }
 }
+//MdEnd

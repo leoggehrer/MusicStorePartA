@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿//@BaseCode
+//MdStart
+using System.Collections.Generic;
 using MusicStore.Logic.Entities.Persistence;
 
 namespace MusicStore.Logic.DataContext
@@ -11,3 +13,4 @@ namespace MusicStore.Logic.DataContext
         IEnumerable<Track> Tracks { get; }
     }
 }
+//MdEnd

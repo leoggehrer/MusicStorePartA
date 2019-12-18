@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿//@BaseCode
+//MdStart
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.Contracts;
@@ -181,3 +183,4 @@ namespace MusicStore.Logic.DataContext.Db
         #endregion IContext
     }
 }
+//MdEnd
