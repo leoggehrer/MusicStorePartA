@@ -28,7 +28,7 @@ Die Aufteilung, für den Teil A, erfolgt nach der folgenden Struktur:
 |**MusicStore.ConApp**|Dieses Projekt ist eine einfache Test-Anwendung zum Kopieren und Ausgeben der Daten. |Console|MusicStore.Contracts, MusicStore.Logic
  
 ### Die Datenstruktur
-Die Datenstruktur ist überschaulich und besteht im wesentlichen aus 4 Komponenten:
+Die Datenstruktur vom 'MusicStore' ist überschaulich und besteht im wesentlichen aus 4 Komponenten:
 
 |Komponente|Beschreibung|Grösse|Mussfeld|Eindeutig|
 |---|---|---|---|---|
@@ -56,8 +56,8 @@ und befindet sich im Ordner 'Entities/Persistence'. Der Klassendesigner im Visua
 ![Entity Relations](EntityRelations.png)
 
 Wie aus der Abbildung leicht erkennbar ist, sind für alle Entitäten Schnittstellen (IEntitätname) definiert. Diese Schnittstellen sind im Projekt 
-'MusicStore.Contracts' im Ordner 'Persistence' definiert und dienen zur Interaktion mit den Entitäten außerhalb der Bibliothek. Das Model zeigt auch noch eine weitere Schnittstelle mit dem Namen ICopyable mit dem Entitynamen an. Dies bedeutet, dass das Entity aus einem Schnittstellen-Objekt 
-Daten übernehmen kann. Die Entitäten sind von der Sichtbarkeit 'internal' und können nicht außerhalb der Bibliothek verwendet werden.
+'MusicStore.Contracts' im Ordner 'Persistence' definiert und dienen zur Interaktion mit den Entitäten außerhalb der Bibliothek. Das Model zeigt auch noch eine weitere Schnittstelle mit dem Namen IIdentifiable an. Diese beinhaltet die Eigenschaft, mit welcher die Identität einer Entität eindeutig bestimmt wird. Im Moment besteht diese Eigenschaft aus einer Id mit dem Datentyp Integer und wird vom System automatisch vergeben.  
+**Achtung:** Die Entitäten sind von der Sichtbarkeit 'internal' und können nicht außerhalb der Bibliothek verwendet werden.
 
 ### MusicStore.Contracts
 Wie bereits schon erläutert, befinden sich alle öffentlichen Schnittstelle in diesem Projekt. Die Definition der Schnittstellen für die Entities 
