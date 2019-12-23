@@ -2,6 +2,7 @@
 //MdStart
 using System;
 using System.Collections.Generic;
+using CommonBase.Extensions;
 
 namespace MusicStore.Logic.Entities.Persistence
 {
@@ -15,10 +16,9 @@ namespace MusicStore.Logic.Entities.Persistence
 
 		public void CopyProperties(Contracts.Persistence.IGenre other)
 		{
-			if (other == null)
-				throw new ArgumentNullException(nameof(other));
+            other.CheckArgument(nameof(other));
 
-			Id = other.Id;
+            Id = other.Id;
 			Name = other.Name;
 		}
 

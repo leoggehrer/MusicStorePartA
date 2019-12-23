@@ -1,6 +1,7 @@
 ﻿//@BaseCode
 //MdStart
 using System;
+using CommonBase.Extensions;
 
 namespace MusicStore.Logic.Entities.Persistence
 {
@@ -20,8 +21,7 @@ namespace MusicStore.Logic.Entities.Persistence
 
         public void CopyProperties(Contracts.Persistence.ITrack other)
         {
-            if (other == null)
-                throw new ArgumentNullException(nameof(other));
+            other.CheckArgument(nameof(other));
 
             Id = other.Id;
             AlbumId = other.AlbumId;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace MusicStore.ConApp
 {
@@ -8,10 +7,10 @@ namespace MusicStore.ConApp
         static void Main(string[] args)
         {
             // Copy sync		
-            CopyDataFromToByLogic(Logic.Factory.PersistenceType.Csv, Logic.Factory.PersistenceType.Db);
+            //CopyDataFromToByLogic(Logic.Factory.PersistenceType.Csv, Logic.Factory.PersistenceType.Db);
 
             // Output sync
-            PrintDataLogic(Logic.Factory.PersistenceType.Csv);
+            PrintDataLogic(Logic.Factory.PersistenceType.Ser);
         }
         /// <summary>
         /// Kopiert die Daten von der Quelle zum angegebenen Ziel.
