@@ -87,14 +87,14 @@ Die Schnittstelle 'Identifyable' definiert eine schreibgeschützte Eigenschaft '
 ```csharp ({"Type": "FileRef", "File": "Contracts/ICopyable.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 namespace MusicStore.Contracts
 {
-    /// <summary>
-    /// Defines a generalized copying method for all properties defined by the Type T.
-    /// </summary>
-    /// <typeparam name="T">The type of object to copy.</typeparam>
-    public partial interface ICopyable<T>
-    {
-        void CopyProperties(T other);
-    }
+	/// <summary>
+	/// Defines a generalized copying method for all properties defined by the Type T.
+	/// </summary>
+	/// <typeparam name="T">The type of object to copy.</typeparam>
+	public partial interface ICopyable<T>
+	{
+		void CopyProperties(T other);
+	}
 }
 ```  
 
@@ -134,7 +134,7 @@ namespace MusicStore.Contracts.Client
     /// This interface defines the basic properties and basic operations for accessing the controller.
     /// </summary>
     /// <typeparam name="T">Type, which the basic operations relate.</typeparam>
-    public partial interface IControllerAccess<T> : IDisposable 
+	public partial interface IControllerAccess<T> : IDisposable 
         where T : Contracts.IIdentifiable
     {
         #region Sync-Methods
@@ -199,7 +199,7 @@ using MusicStore.Contracts.Client;
 
 namespace MusicStore.Logic
 {
-    public static class Factory
+	public static class Factory
     {
         public enum PersistenceType
         {
@@ -306,39 +306,39 @@ namespace MusicStore.Logic
         /// </summary>
         /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
         /// <returns>The controller's interface.</returns>
-        public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController(object sharedController)
-        {
-            if (sharedController == null)
-                throw new ArgumentNullException(nameof(sharedController));
+		public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController(object sharedController)
+		{
+			if (sharedController == null)
+				throw new ArgumentNullException(nameof(sharedController));
 
-            Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
+			Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
 
-            return new Controllers.Persistence.GenreController(controller);
-        }
+			return new Controllers.Persistence.GenreController(controller);
+		}
 
         /// <summary>
         /// This method creates a controller object for the artist entity type.
         /// </summary>
         /// <returns>The controller's interface.</returns>
-        public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController()
-        {
-            return new Controllers.Persistence.ArtistController(CreateContext());
-        }
+		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController()
+		{
+			return new Controllers.Persistence.ArtistController(CreateContext());
+		}
         /// <summary>
         /// This method creates a controller object for the artist entity type. The DataContext object is used 
         /// from the parameter object.
         /// </summary>
         /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
         /// <returns>The controller's interface.</returns>
-        public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController(object sharedController)
-        {
-            if (sharedController == null)
-                throw new ArgumentNullException(nameof(sharedController));
+		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController(object sharedController)
+		{
+			if (sharedController == null)
+				throw new ArgumentNullException(nameof(sharedController));
 
-            Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
+			Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
 
-            return new Controllers.Persistence.ArtistController(controller);
-        }
+			return new Controllers.Persistence.ArtistController(controller);
+		}
 
         /// <summary>
         /// This method creates a controller object for the album entity type.
@@ -411,7 +411,7 @@ namespace MusicStore.Contracts.Client
     /// This interface defines the basic properties and basic operations for accessing the controller.
     /// </summary>
     /// <typeparam name="T">Type, which the basic operations relate.</typeparam>
-    public partial interface IControllerAccess<T> : IDisposable 
+	public partial interface IControllerAccess<T> : IDisposable 
         where T : Contracts.IIdentifiable
     {
         #region Sync-Methods
