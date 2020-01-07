@@ -1,4 +1,4 @@
-# MusicStore
+# MusicStore (Teil A)
 Das Projekt 'MusicStore' ist ein kleines datenzentriertes Anwendungsbeispiel mit welchem die Erstellung eines Software-Systems dargestellt werden soll. Aufgrund der Komplexität, die ein Software-System im Allgemeinem darstellt, ist die Erstellung des Beispiels in mehreren Abschnitten unterteilt. Die Aufteilung ist wie folgt definiert:  
 
 + **Teil A** bildet die Basis des Systems und wird in den weiteren Ausbaustufen erweitert 
