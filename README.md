@@ -106,7 +106,7 @@ namespace MusicStore.Contracts.Persistence
     /// <summary>
     /// Defines all public properties of an album.
     /// </summary>
-    public interface IAlbum : IIdentifiable
+    public interface IAlbum : IIdentifiable, ICopyable<IAlbum>
     {
         /// <summary>
         /// Gets or sets the reference id from an artist.
@@ -207,8 +207,15 @@ namespace MusicStore.Logic
             Csv,
             Ser,
         }
+        /// <summary>
+        /// Get and sets the persistence type.
+        /// </summary>
         public static PersistenceType Persistence { get; set; } = Factory.PersistenceType.Csv;
 
+        /// <summary>
+        /// This method creates the 'DataContext' depending on the persist type.
+        /// </summary>
+        /// <returns>An instance of the 'DataContext' type.</returns>
         private static DataContext.IContext CreateContext()
         {
             DataContext.IContext result = null;
@@ -227,7 +234,12 @@ namespace MusicStore.Logic
             }
             return result;
         }
-
+        /// <summary>
+        /// This method creates a controller object depending on the interface type 
+        /// and passes its interface to the caller.
+        /// </summary>
+        /// <typeparam name="T">The interface type.</typeparam>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<T> Create<T>() where T : Contracts.IIdentifiable
         {
             IControllerAccess<T> result = null;
@@ -250,6 +262,14 @@ namespace MusicStore.Logic
             }
             return result;
         }
+        /// <summary>
+        /// Depending on the interface type, this method creates a controller object 
+        /// and transfers its interface to the caller. The DataContext object is used 
+        /// from the parameter object.
+        /// </summary>
+        /// <typeparam name="T">The interface type.</typeparam>
+        /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<T> Create<T>(object sharedController) where T : Contracts.IIdentifiable
         {
             IControllerAccess<T> result = null;
@@ -272,11 +292,20 @@ namespace MusicStore.Logic
             }
             return result;
         }
-
+        /// <summary>
+        /// This method creates a controller object for the genre entity type.
+        /// </summary>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController()
         {
             return new Controllers.Persistence.GenreController(CreateContext());
         }
+        /// <summary>
+        /// This method creates a controller object for the genre entity type. The DataContext object is used 
+        /// from the parameter object.
+        /// </summary>
+        /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
+        /// <returns>The controller's interface.</returns>
 		public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController(object sharedController)
 		{
 			if (sharedController == null)
@@ -287,10 +316,20 @@ namespace MusicStore.Logic
 			return new Controllers.Persistence.GenreController(controller);
 		}
 
+        /// <summary>
+        /// This method creates a controller object for the artist entity type.
+        /// </summary>
+        /// <returns>The controller's interface.</returns>
 		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController()
 		{
 			return new Controllers.Persistence.ArtistController(CreateContext());
 		}
+        /// <summary>
+        /// This method creates a controller object for the artist entity type. The DataContext object is used 
+        /// from the parameter object.
+        /// </summary>
+        /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
+        /// <returns>The controller's interface.</returns>
 		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController(object sharedController)
 		{
 			if (sharedController == null)
@@ -301,10 +340,20 @@ namespace MusicStore.Logic
 			return new Controllers.Persistence.ArtistController(controller);
 		}
 
+        /// <summary>
+        /// This method creates a controller object for the album entity type.
+        /// </summary>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<Contracts.Persistence.IAlbum> CreateAlbumController()
         {
             return new Controllers.Persistence.AlbumController(CreateContext());
         }
+        /// <summary>
+        /// This method creates a controller object for the album entity type. The DataContext object is used 
+        /// from the parameter object.
+        /// </summary>
+        /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<Contracts.Persistence.IAlbum> CreateAlbumController(object sharedController)
         {
             if (sharedController == null)
@@ -315,10 +364,20 @@ namespace MusicStore.Logic
             return new Controllers.Persistence.AlbumController(controller);
         }
 
+        /// <summary>
+        /// This method creates a controller object for the track entity type.
+        /// </summary>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<Contracts.Persistence.ITrack> CreateTrackController()
         {
             return new Controllers.Persistence.TrackController(CreateContext());
         }
+        /// <summary>
+        /// This method creates a controller object for the track entity type. The DataContext object is used 
+        /// from the parameter object.
+        /// </summary>
+        /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<Contracts.Persistence.ITrack> CreateTrackController(object sharedController)
         {
             if (sharedController == null)
@@ -331,5 +390,75 @@ namespace MusicStore.Logic
     }
 }
 ```  
+Die Fabrik-Klasse implementiert unterschiedliche Komponenten. So ist in dieser Klasse die Enumeration 'PersistenceType' definiert. Mit dieser Enumeration kann angegeben werden, welche Art der Persistierung die Kontroller-Klasse verwendet. Zu Verfügung stehen folgende Optionen:  
+
++ **Db**...Die Persistierung erfolgt mittels einer Datenbank
++ **Csv**...Die Persistierung erfolgt mittels Textdateien im Csv-Format
++ **Ser**...Die Persistierung erfolgt mittels Serialisierung im Binär-Format  
+
+Der Klient hat die Möglichkeit, über die Eigenschaft 'Persistence' den Persistierungstyp zu setzen. In Abhängigkeit dieser Eigenschaft wird der Kontroller mit dem entsprechenden 'DataContext'-Objekt verbunden. Aus der Sicht der Kontroller-Klasse ist die Persistierung abstrahiert. Dies bedeutet, dass das Kontroller-Objekt mit einer Schnittstelle arbeitet und nicht mit einem konkreten Objekt vom Typ 'DataContext' verbunden ist. Somit ist dem Kontroller-Objekt der Persistierungstyp (Db, Csv oder Ser) unbekannt.  
+ Die Methode 'Create<T>()' instanziiert ein Kontroller-Objekt, für den entsprechenden Schnittstellen Typ 'T', und gibt deren Schnittstelle 'IControllerAccess<T>' an den Aufrufer. Es ist wichtig, dass nur die Schnittstelle nach außen geleitet wird und nicht das Objekt direkt. Dadurch wird der Klientzugriff auf den Kontroller abstrahiert und die Kapselung der Geschäftslogik unterstützt.  
+Die Überladung der Methode 'Create<T>(object sharedController)' bietet die Möglichkeit, dass das DataContext-Objekt geteilt werden kann. Dies bedeutet, dass das DataContext-Objekt vom Parameter-Objekt wieder verwendet wird und dem neu erstellten Kontroller-Objekt zugeordnet wird. Dadurch können Datenmanipulationen innerhalb eines Daten-Kontext durchgeführt werden.
+
+```csharp ({"Type": "FileRef", "File": "Client/IControllerAccess.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System;
+using System.Collections.Generic;
+
+namespace MusicStore.Contracts.Client
+{
+    /// <summary>
+    /// This interface defines the basic properties and basic operations for accessing the controller.
+    /// </summary>
+    /// <typeparam name="T">Type, which the basic operations relate.</typeparam>
+	public partial interface IControllerAccess<T> : IDisposable 
+        where T : Contracts.IIdentifiable
+    {
+        #region Sync-Methods
+        /// <summary>
+        /// Gets the number of quantity in the collection.
+        /// </summary>
+        /// <returns>Number of entities in the collection.</returns>
+        int Count();
+        /// <summary>
+        /// Returns all interfaces of the entities in the collection.
+        /// </summary>
+        /// <returns>All interfaces of the entity collection.</returns>
+        IEnumerable<T> GetAll();
+        /// <summary>
+        /// Returns the element of type T with the identification of id.
+        /// </summary>
+        /// <param name="id">The identification.</param>
+        /// <returns>The element of the type T with the corresponding identification.</returns>
+        T GetById(int id);
+        /// <summary>
+        /// Creates a new element of type T.
+        /// </summary>
+        /// <returns>The new element.</returns>
+        T Create();
+        /// <summary>
+        /// The entity is being tracked by the context but does not yet exist in the repository. 
+        /// </summary>
+        /// <param name="entity">The entity which is to be inserted.</param>
+        /// <returns>The inserted entity.</returns>
+        T Insert(T entity);
+        /// <summary>
+        /// The entity is being tracked by the context and exists in the repository, and some or all of its property values have been modified.
+        /// </summary>
+        /// <param name="entity">The entity which is to be updated.</param>
+        void Update(T entity);
+        /// <summary>
+        /// Removes the entity from the repository with the appropriate identity.
+        /// </summary>
+        /// <param name="id">The identification.</param>
+        void Delete(int id);
+        /// <summary>
+        /// Saves any changes in the underlying persistence.
+        /// </summary>
+        void SaveChanges();
+        #endregion Sync-Methods
+    }
+}
+```  
+
 <center>Viel Spaß beim Erstellen!</center>
 

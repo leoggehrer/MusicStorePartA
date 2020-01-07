@@ -13,8 +13,15 @@ namespace MusicStore.Logic
             Csv,
             Ser,
         }
+        /// <summary>
+        /// Get and sets the persistence type.
+        /// </summary>
         public static PersistenceType Persistence { get; set; } = Factory.PersistenceType.Csv;
 
+        /// <summary>
+        /// This method creates the 'DataContext' depending on the persist type.
+        /// </summary>
+        /// <returns>An instance of the 'DataContext' type.</returns>
         private static DataContext.IContext CreateContext()
         {
             DataContext.IContext result = null;
@@ -33,7 +40,12 @@ namespace MusicStore.Logic
             }
             return result;
         }
-
+        /// <summary>
+        /// This method creates a controller object depending on the interface type 
+        /// and passes its interface to the caller.
+        /// </summary>
+        /// <typeparam name="T">The interface type.</typeparam>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<T> Create<T>() where T : Contracts.IIdentifiable
         {
             IControllerAccess<T> result = null;
@@ -56,6 +68,14 @@ namespace MusicStore.Logic
             }
             return result;
         }
+        /// <summary>
+        /// Depending on the interface type, this method creates a controller object 
+        /// and transfers its interface to the caller. The DataContext object is used 
+        /// from the parameter object.
+        /// </summary>
+        /// <typeparam name="T">The interface type.</typeparam>
+        /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<T> Create<T>(object sharedController) where T : Contracts.IIdentifiable
         {
             IControllerAccess<T> result = null;
@@ -78,11 +98,20 @@ namespace MusicStore.Logic
             }
             return result;
         }
-
+        /// <summary>
+        /// This method creates a controller object for the genre entity type.
+        /// </summary>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController()
         {
             return new Controllers.Persistence.GenreController(CreateContext());
         }
+        /// <summary>
+        /// This method creates a controller object for the genre entity type. The DataContext object is used 
+        /// from the parameter object.
+        /// </summary>
+        /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
+        /// <returns>The controller's interface.</returns>
 		public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController(object sharedController)
 		{
 			if (sharedController == null)
@@ -93,10 +122,20 @@ namespace MusicStore.Logic
 			return new Controllers.Persistence.GenreController(controller);
 		}
 
+        /// <summary>
+        /// This method creates a controller object for the artist entity type.
+        /// </summary>
+        /// <returns>The controller's interface.</returns>
 		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController()
 		{
 			return new Controllers.Persistence.ArtistController(CreateContext());
 		}
+        /// <summary>
+        /// This method creates a controller object for the artist entity type. The DataContext object is used 
+        /// from the parameter object.
+        /// </summary>
+        /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
+        /// <returns>The controller's interface.</returns>
 		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController(object sharedController)
 		{
 			if (sharedController == null)
@@ -107,10 +146,20 @@ namespace MusicStore.Logic
 			return new Controllers.Persistence.ArtistController(controller);
 		}
 
+        /// <summary>
+        /// This method creates a controller object for the album entity type.
+        /// </summary>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<Contracts.Persistence.IAlbum> CreateAlbumController()
         {
             return new Controllers.Persistence.AlbumController(CreateContext());
         }
+        /// <summary>
+        /// This method creates a controller object for the album entity type. The DataContext object is used 
+        /// from the parameter object.
+        /// </summary>
+        /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<Contracts.Persistence.IAlbum> CreateAlbumController(object sharedController)
         {
             if (sharedController == null)
@@ -121,10 +170,20 @@ namespace MusicStore.Logic
             return new Controllers.Persistence.AlbumController(controller);
         }
 
+        /// <summary>
+        /// This method creates a controller object for the track entity type.
+        /// </summary>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<Contracts.Persistence.ITrack> CreateTrackController()
         {
             return new Controllers.Persistence.TrackController(CreateContext());
         }
+        /// <summary>
+        /// This method creates a controller object for the track entity type. The DataContext object is used 
+        /// from the parameter object.
+        /// </summary>
+        /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
+        /// <returns>The controller's interface.</returns>
         public static IControllerAccess<Contracts.Persistence.ITrack> CreateTrackController(object sharedController)
         {
             if (sharedController == null)
