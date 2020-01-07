@@ -398,7 +398,8 @@ Die Fabrik-Klasse implementiert unterschiedliche Komponenten. So ist in dieser K
 
 Der Klient hat die Möglichkeit, über die Eigenschaft 'Persistence' den Persistierungstyp zu setzen. In Abhängigkeit dieser Eigenschaft wird der Kontroller mit dem entsprechenden 'DataContext'-Objekt verbunden. Aus der Sicht der Kontroller-Klasse ist die Persistierung abstrahiert. Dies bedeutet, dass das Kontroller-Objekt mit einer Schnittstelle arbeitet und nicht mit einem konkreten Objekt vom Typ 'DataContext' verbunden ist. Somit ist dem Kontroller-Objekt der Persistierungstyp (Db, Csv oder Ser) unbekannt.  
  Die Methode 'Create\<T\>()' instanziiert ein Kontroller-Objekt für den entsprechenden Schnittstellen Typ 'T', und gibt deren Schnittstelle 'IControllerAccess<T>' an den Aufrufer. Es ist wichtig, dass nur die Schnittstelle nach außen geleitet wird und nicht das Objekt direkt. Dadurch wird der Klientzugriff auf den Kontroller abstrahiert und die Kapselung der Geschäftslogik unterstützt.  
-Die Überladung der Methode 'Create\<T\>(object sharedController)' bietet die Möglichkeit, dass das DataContext-Objekt geteilt werden kann. Dies bedeutet, dass das DataContext-Objekt vom Parameter-Objekt wieder verwendet wird und dem neu erstellten Kontroller-Objekt zugeordnet wird. Dadurch können Datenmanipulationen innerhalb einer Transaktion durchgeführt werden.
+Die Überladung der Methode 'Create\<T\>(object sharedController)' bietet die Möglichkeit, dass das DataContext-Objekt geteilt werden kann. Dies bedeutet, dass das DataContext-Objekt vom Parameter-Objekt wieder verwendet wird und dem neu erstellten Kontroller-Objekt zugeordnet wird. Dadurch können Datenmanipulationen, von mehreren Kontroller-Objekten, innerhalb einer Transaktion durchgeführt werden.  
+Eine zentrale Bedeutung nimmt die Schnittstelle 'IControllerAccess\<T\>' ein. Diese Schnittstelle definiert den Zugriff auf das Kontroller-Objekt und ist der einzige Zugriff auf den Kontroller außerhalb der Logik. Im nachfolgenden die Schnittstelle 'IControllerAccess\<T\>':  
 
 ```csharp ({"Type": "FileRef", "File": "Client/IControllerAccess.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 using System;
@@ -459,6 +460,9 @@ namespace MusicStore.Contracts.Client
     }
 }
 ```  
+ Zu beachten ist, dass diese Schnittstelle von der Schnittstelle 'IDisposable' abgeleitet ist. Das bedeutet, dass diese Objekte ausnahmslos mit dem using-Statement zu verwenden sind. Diese **Verwendungsregel** gilt für alle Objekte welche diese Schnittstelle implementieren.  
+  
+Im nächsten Teil (PartB) soll die Schnittstelle 'IControllerAccess\<T\>' um asynchrone Methoden erweitert werden. Das asynchrone Programmierkonzept zählt zu den wesentlichsten Erweiterung im DotNet-Framework und wird in der Programmiersprache C# seit der Version 5.0 unterstützt. Informationen zu diesem Thema finden sich unter folgendem Link [Asynchrone Programmierung](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/concepts/async/index).  
 
-<center>Viel Spaß beim Erstellen!</center>
+**Viel Spaß beim Erstellen!**
 
