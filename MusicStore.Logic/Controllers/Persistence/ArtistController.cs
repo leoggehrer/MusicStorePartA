@@ -1,4 +1,4 @@
-﻿//@BaseCode
+﻿//@DomainCode
 //MdStart
 using MusicStore.Logic.DataContext;
 using System.Collections.Generic;

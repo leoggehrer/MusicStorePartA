@@ -1,4 +1,4 @@
-﻿//@BaseCode
+﻿//@DomainCode
 //MdStart
 namespace MusicStore.Contracts.Persistence
 {
