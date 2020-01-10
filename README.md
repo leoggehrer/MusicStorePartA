@@ -50,20 +50,20 @@ Die Datenstruktur vom 'MusicStore' ist überschaulich und besteht im wesentliche
 |**Hinweis**|Alle Komponenten haben eine eindeutige Identität (Id)||||
 |*|*Natürlich können noch weitere Attribute hinzugefügt werden.*||||
 
-Aus dieser Definition kann ein entsprechendes Objektmodell abgeleitet werden. Dieses Model ist im Projekt 'MusicStore.Logic' definiert 
-und befindet sich im Ordner 'Entities/Persistence'. Der Klassendesigner im Visual Studio zeigt folgendes Bild:
+Aus dieser Definition kann ein entsprechendes Objektmodell abgeleitet werden, welches nachfolgend skizziert ist:
 
-![Entity Relations](EntityRelations.png)
+![Entitybeziehungen](EntityRelations.png)
 
-Wie aus der Abbildung leicht erkennbar ist, sind für alle Entitäten Schnittstellen (IEntitätname) definiert. Diese Schnittstellen sind im Projekt 
-'MusicStore.Contracts' im Ordner 'Persistence' definiert und dienen zur Interaktion mit den Entitäten außerhalb der Bibliothek. Das Model zeigt auch noch eine weitere Schnittstelle mit dem Namen IIdentifiable an. Diese beinhaltet die Eigenschaft, mit welcher die Identität einer Entität eindeutig bestimmt wird. Im Moment besteht diese Eigenschaft aus einer Id mit dem Datentyp Integer und wird vom System automatisch vergeben.  
+Wie aus der Abbildung leicht erkennbar ist, sind für alle Entitäten Schnittstellen (IEntityname) definiert. Diese Schnittstellen sind im Projekt 
+'MusicStore.Contracts' im Ordner 'Persistence' definiert und dienen zur Interaktion mit den Entitäts-Objekten außerhalb der Bibliothek. Das Model zeigt auch noch eine Basisklasse mit dem Namen 'IdentityObject'. Diese Klasse ist die Basisklasse für alle Entitäten im System und definiert die Identität der Objekte und beinhaltet die Eigenschaft, mit welcher die Identität einer Entität eindeutig bestimmt wird. Im Moment besteht diese Eigenschaft aus einer Id mit dem Datentyp Integer und wird vom System automatisch vergeben.  
+
 **Achtung:** Die Entitäten sind von der Sichtbarkeit 'internal' und können nicht außerhalb der Bibliothek verwendet werden.
 
 ### MusicStore.Contracts
-Wie bereits schon erläutert, befinden sich alle öffentlichen Schnittstelle in diesem Projekt. Die Definition der Schnittstellen für die Entities 
-befinden sich im Ordner 'Persistence'. In diesem Ordner befinden sich alle Schnittstellen für die Entitäten welche im Projekt 'MusicStore.Logic' definiert sind. Der Klassendesigner zeigt folgendes Model für die Schnittstellen: 
+Wie bereits schon erwähnt, befinden sich alle öffentlichen Schnittstelle in diesem Projekt. Die Definition der Schnittstellen für die Entities 
+befinden sich im Ordner 'Persistence'. In diesem Ordner befinden sich alle Schnittstellen für die Entitäten welche im Projekt 'MusicStore.Logic' definiert sind. Der Klassendesigner zeigt folgendes Model für die Schnittstellen der persistierenden Entitäten: 
 
-![Scnittstellen](Contracts.png)  
+![Scnittstellen](PersistenceContracts.png)  
  
 Zu beachten ist, dass keine Schnittstelle die Navigationseigenschaften der Entitäten modelliert. Das ist sehr wichtig, weil dadurch unbeabsichtigte Fehler entstehen können. Die Erklärung erfolgt im Teil C Web-Api (REST).  
 
@@ -82,7 +82,7 @@ namespace MusicStore.Contracts
     }
 }
 ```  
-Die Schnittstelle 'Identifyable' definiert eine schreibgeschützte Eigenschaft 'Id'. Diese Eigenschaft kann nur innerhalb des Projektes 'MusicStore.Logic' verändert werden. Diese Schnittstelle bildet die Basis für alle anderen Schnittstellen vom Typ Entity.  
+Die Schnittstelle 'IIdentifyable' definiert eine schreibgeschützte Eigenschaft 'Id'. Diese Eigenschaft kann nur innerhalb des Projektes 'MusicStore.Logic' verändert werden. Diese Schnittstelle bildet die Basis für alle anderen Schnittstellen vom Typ Entity.  
 
 ```csharp ({"Type": "FileRef", "File": "Contracts/ICopyable.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 namespace MusicStore.Contracts
@@ -97,28 +97,23 @@ namespace MusicStore.Contracts
 	}
 }
 ```  
+Die Schnittstelle 'ICopyable\<T\>' dient zum Übertragen der Daten von einem Entity zu einem anderen Entity.
 
-Im nachfolgenden wird die Schnittstelle 'IAlbum' stellvertretend für alle Entitäten betrachtet.
+Nachfolgend, die Definition der Schnittstellen der Entitäten Album, Genre, Artist und Track:
 
 ```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/IAlbum.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
-namespace MusicStore.Contracts.Persistence
-{
-    /// <summary>
-    /// Defines all public properties of an album.
-    /// </summary>
-    public interface IAlbum : IIdentifiable, ICopyable<IAlbum>
-    {
-        /// <summary>
-        /// Gets or sets the reference id from an artist.
-        /// </summary>
-        int ArtistId { get; set; }
-        /// <summary>
-        /// Gets or sets the title of this instance.
-        /// </summary>
-        string Title { get; set; }
-    }
-}
 ```
+
+```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/IGenre.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+```
+
+```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/IArtist.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+```
+
+```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/ITrack.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+```
+
+
 Diese Schnittstelle erbt die Schnittstellendefinition von 'IIdentifyable' und ist somit identifizierbar. Weiters ist eine Eigenschaft 'ArtistId' 
 definiert. Diese Eigenschaft beinhaltet die Referenzdaten zum Entity 'Artist'. Die Prüfung auf korrekten Inhalt erfolgt im Projekt MusicStore.Logic'.
 
