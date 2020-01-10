@@ -97,7 +97,7 @@ namespace MusicStore.Contracts
 	}
 }
 ```  
-Die Schnittstelle 'ICopyable\<T\>' dient zum Übertragen der Daten von einem Entity zu einem anderen Entity.
+Die Schnittstelle 'ICopyable\<T\>' dient zum Übertragen der Daten von einer Entität zu einer anderen Entität.
 
 Nachfolgend, die Definition der Schnittstellen für die Entität 'Album':
 ```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/IAlbum.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
@@ -194,8 +194,8 @@ namespace MusicStore.Contracts.Persistence
 }
 ```
 
-Diese Schnittstellen erben von der Schnittstelle 'IIdentifyable' und sind somit identifizierbar. Weiters ist eine Eigenschaft 'ArtistId' 
-definiert. Diese Eigenschaft beinhaltet die Referenzdaten zur Entität 'Artist'. Die Prüfung auf korrekten Inhalt erfolgt im Projekt MusicStore.Logic'.
+Diese Schnittstellen erben von den Schnittstelle 'IIdentifyable' und 'ICopyable'. Somit ist festgelegt, dass alle Entitäten identifizierbar und kopierbar sind.  
+Weiters gibt es Eigenschaften mit der Namensform [Entitätsname]Id - wie zum Beispiel die Eigenschaft 'ArtistId'. Eigenschaften, die diese Form aufweisen, enthalten Referenzdaten zu anderen Entitäten. Zum Beispiel enthält die Eigenschaft 'ArtistId' die Identität der Entität 'Artist'. Die Prüfung auf korrekten Inhalt, dieser Eigenschaften, erfolgt im Projekt MusicStore.Logic'.
 
 Im Projekt ist noch eine weitere Schnittstelle definiert. Diese Schnittstelle befindet sich im Ordner 'Client' und stellt den Zugriff auf das Kontroller-Objekt aus dem Projekt 'MusicStore.Logic' dar. Alle Kontroller, im Projekt 'MusicStroe.Logic', implementieren diese Schnittstelle.  
 
