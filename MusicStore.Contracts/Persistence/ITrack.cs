@@ -5,7 +5,7 @@ namespace MusicStore.Contracts.Persistence
     /// <summary>
     /// Defines all properties of a track.
     /// </summary>
-	public interface ITrack : IIdentifiable, ICopyable<ITrack>
+    public interface ITrack : IIdentifiable, ICopyable<ITrack>
     {
         /// <summary>
         /// Gets or sets the reference id from album.
@@ -22,7 +22,7 @@ namespace MusicStore.Contracts.Persistence
         /// <summary>
         /// Gets or sets the composer of this instance.
         /// </summary>
-		string Composer { get; set; }
+        string Composer { get; set; }
         /// <summary>
         /// Gets or sets the milliseconds of this instance.
         /// </summary>

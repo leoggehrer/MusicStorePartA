@@ -27,26 +27,26 @@ Die Aufteilung, für den Teil A, erfolgt nach der folgenden Struktur:
 |**MusicStore.Logic**|Dieser Projekt beinhaltet den vollständigen Datenzugriff, die gesamte Geschäftslogik und stellt somit den zentralen Baustein des Systems dar. |Library|CommonBase, MusicStore.Contracts
 |**MusicStore.ConApp**|Dieses Projekt ist eine einfache Test-Anwendung zum Kopieren und Ausgeben der Daten. |Console|MusicStore.Contracts, MusicStore.Logic
  
-### Die Datenstruktur
-Die Datenstruktur vom 'MusicStore' ist überschaulich und besteht im wesentlichen aus 4 Komponenten:
+### Datenstruktur
+Die Datenstruktur vom 'MusicStore' ist überschaulich und besteht im wesentlichen aus 4 Komponenten welche in der folgenden Tabelle zusammengefasst sind:
 
 |Komponente|Beschreibung|Grösse|Mussfeld|Eindeutig|
 |---|---|---|---|---|
 |**Artist**|Der Artist interpretiert und komponiert unterschiedlichste Musik-Titeln. Diese werden in einer oder mehreren Sammlung(en) (Album) zusammengefasst.|
-|Name|Name und des Artisten|1024|Ja|Ja|
+|*Name*|Name und des Artisten|1024|Ja|Ja|
 |**Album**|Das Album beinhaltet eine Sammlung von Musik-Titeln (Track) und ist einem Artisten zugeortnet.|||
-|Title|Titel des Albums|1024|Ja|Ja|
-|ArtistId|Fremdschüssel zum Artisten|int|Ja|Nein|
+|*Title*|Titel des Albums|1024|Ja|Ja|
+|*ArtistId*|Fremdschüssel zum Artisten|int|Ja|Nein|
 |**Genre**|Das Genre definiert eine Musikrichtung und dient zur Klassifikation. Diese Information muss einem Musiktitel (Track) zugeordnet sein.|||
-|Name|Name vom Genre|256|Ja|Ja|
+|*Name*|Name vom Genre|256|Ja|Ja|
 |**Track**|Der Track definiert einen Musik-Titel und ist einem Album zugeordnet. Über das Album kann der Artist ermittelt werden.|||
-|Title|Titel des Musikstückes|1024|Ja|Nein|
-|Composer|Komponist des Musikstückes|512|Nein|Nein|
-|Bytes|Größe, in Bytes, des Titles|long|Ja|Nein|
-|Milliseconds|Zeit des Titles|long|Ja|Nein|
-|UnitPrice|Kosten des Titles|double|Ja|Nein|
-|GenreId|Fremdschüssel zum Genre|int|Ja|Nein|
-|AlbumId|Fremdschüssel zum Album|int|Ja|Nein|
+|*Title*|Titel des Musikstückes|1024|Ja|Nein|
+|*Composer*|Komponist des Musikstückes|512|Nein|Nein|
+|*Bytes*|Größe, in Bytes, des Titles|long|Ja|Nein|
+|*Milliseconds*|Zeit des Titles|long|Ja|Nein|
+|*UnitPrice*|Kosten des Titles|double|Ja|Nein|
+|*GenreId*|Fremdschüssel zum Genre|int|Ja|Nein|
+|*AlbumId*|Fremdschüssel zum Album|int|Ja|Nein|
 |**Hinweis**|Alle Komponenten haben eine eindeutige Identität (Id)||||
 |*|*Natürlich können noch weitere Attribute hinzugefügt werden.*||||
 
@@ -54,14 +54,14 @@ Aus dieser Definition kann ein entsprechendes Objektmodell abgeleitet werden, we
 
 ![Entitybeziehungen](EntityRelations.png)
 
-Wie aus der Abbildung leicht erkennbar ist, sind für alle Entitäten Schnittstellen (IEntityname) definiert. Diese Schnittstellen sind im Projekt 
-'MusicStore.Contracts' im Ordner 'Persistence' definiert und dienen zur Interaktion mit den Entitäts-Objekten außerhalb der Bibliothek. Das Model zeigt auch noch eine Basisklasse mit dem Namen 'IdentityObject'. Diese Klasse ist die Basisklasse für alle Entitäten im System und definiert die Identität der Objekte und beinhaltet die Eigenschaft, mit welcher die Identität einer Entität eindeutig bestimmt wird. Im Moment besteht diese Eigenschaft aus einer Id mit dem Datentyp Integer und wird vom System automatisch vergeben.  
+Wie aus der Abbildung leicht erkennbar ist, sind für alle Entitäten Schnittstellen definiert. Diese Schnittstellen sind im Projekt 
+'MusicStore.Contracts' im Ordner 'Persistence' definiert und dienen zur Interaktion mit den Entitätsobjekten außerhalb der Bibliothek. Das Model zeigt auch noch eine Basisklasse mit dem Namen 'IdentityObject'. Diese Klasse ist die Basisklasse für alle Entitäten im System und definiert die Identität der Objekte und beinhaltet die Eigenschaft, mit welcher die Identität eines Entitätstyp eindeutig bestimmt wird. Im Moment besteht diese Eigenschaft aus einer Id mit dem Datentyp Integer und wird vom System automatisch vergeben.  
 
 **Achtung:** Die Entitäten sind von der Sichtbarkeit 'internal' und können nicht außerhalb der Bibliothek verwendet werden.
 
 ### MusicStore.Contracts
-Wie bereits schon erwähnt, befinden sich alle öffentlichen Schnittstelle in diesem Projekt. Die Definition der Schnittstellen für die Entities 
-befinden sich im Ordner 'Persistence'. In diesem Ordner befinden sich alle Schnittstellen für die Entitäten welche im Projekt 'MusicStore.Logic' definiert sind. Der Klassendesigner zeigt folgendes Model für die Schnittstellen der persistierenden Entitäten: 
+Wie bereits schon erwähnt, befinden sich alle öffentlichen Schnittstelle in diesem Projekt. Die Definitionen der Schnittstellen für die Entities 
+befinden sich im Ordner 'Persistence'. In diesem Ordner befinden sich alle Schnittstellen für die Entitäten, welche im Projekt 'MusicStore.Logic' definiert sind, und eine direkten Bezug zu einer Persistenzquelle (z.B. Datenbank Tabelle) haben. Der Klassendesigner zeigt folgendes Diagramm für die Schnittstellen der persistierenden Entitäten: 
 
 ![Scnittstellen](PersistenceContracts.png)  
  
@@ -82,7 +82,7 @@ namespace MusicStore.Contracts
     }
 }
 ```  
-Die Schnittstelle 'IIdentifyable' definiert eine schreibgeschützte Eigenschaft 'Id'. Diese Eigenschaft kann nur innerhalb des Projektes 'MusicStore.Logic' verändert werden. Diese Schnittstelle bildet die Basis für alle anderen Schnittstellen vom Typ Entity.  
+Die Schnittstelle 'IIdentifyable' definiert eine schreibgeschützte Eigenschaft 'Id'. Diese Eigenschaft kann nur innerhalb des Projektes 'MusicStore.Logic' verändert werden. Diese Schnittstelle bildet die Basis für alle anderen Schnittstellen der Kategorie 'Entity'.  
 
 ```csharp ({"Type": "FileRef", "File": "Contracts/ICopyable.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 namespace MusicStore.Contracts
@@ -99,25 +99,105 @@ namespace MusicStore.Contracts
 ```  
 Die Schnittstelle 'ICopyable\<T\>' dient zum Übertragen der Daten von einem Entity zu einem anderen Entity.
 
-Nachfolgend, die Definition der Schnittstellen der Entitäten Album, Genre, Artist und Track:
-
+Nachfolgend, die Definition der Schnittstellen für die Entität 'Album':
 ```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/IAlbum.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+namespace MusicStore.Contracts.Persistence
+{
+    /// <summary>
+    /// Defines all public properties of an album.
+    /// </summary>
+    public interface IAlbum : IIdentifiable, ICopyable<IAlbum>
+    {
+        /// <summary>
+        /// Gets or sets the reference id from an artist.
+        /// </summary>
+        int ArtistId { get; set; }
+        /// <summary>
+        /// Gets or sets the title of this instance.
+        /// </summary>
+        string Title { get; set; }
+    }
+}
 ```
 
+Die Definition der Schnittstellen für die Entität 'Genre':
 ```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/IGenre.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+namespace MusicStore.Contracts.Persistence
+{
+    /// <summary>
+    /// Defines all properties of a genre.
+    /// </summary>
+    public interface IGenre : IIdentifiable, ICopyable<IGenre>
+    {
+        /// <summary>
+        /// Gets or sets the name of this instance.
+        /// </summary>
+        string Name { get; set; }
+    }
+}
 ```
 
+Die Definition der Schnittstellen für die Entität 'Artist':
 ```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/IArtist.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+namespace MusicStore.Contracts.Persistence
+{
+    /// <summary>
+    /// Defines all properties of an artist.
+    /// </summary>
+    public interface IArtist : IIdentifiable, ICopyable<IArtist>
+    {
+        /// <summary>
+        /// Gets or sets the name of this instance.
+        /// </summary>
+        string Name { get; set; }
+    }
+}
 ```
-
+Die Definition der Schnittstellen für die Entität 'Track':
 ```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/ITrack.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+namespace MusicStore.Contracts.Persistence
+{
+    /// <summary>
+    /// Defines all properties of a track.
+    /// </summary>
+    public interface ITrack : IIdentifiable, ICopyable<ITrack>
+    {
+        /// <summary>
+        /// Gets or sets the reference id from album.
+        /// </summary>
+        int AlbumId { get; set; }
+        /// <summary>
+        /// Gets or sets the reference id from genre.
+        /// </summary>
+        int GenreId { get; set; }
+        /// <summary>
+        /// Gets or sets the title of this instance.
+        /// </summary>
+        string Title { get; set; }
+        /// <summary>
+        /// Gets or sets the composer of this instance.
+        /// </summary>
+        string Composer { get; set; }
+        /// <summary>
+        /// Gets or sets the milliseconds of this instance.
+        /// </summary>
+        long Milliseconds { get; set; }
+        /// <summary>
+        /// Gets or sets the bytes of this instance.
+        /// </summary>
+        long Bytes { get; set; }
+        /// <summary>
+        /// Gets or sets the unitprice of this instance.
+        /// </summary>
+        double UnitPrice { get; set; }
+    }
+}
 ```
 
+Diese Schnittstellen erben von der Schnittstelle 'IIdentifyable' und sind somit identifizierbar. Weiters ist eine Eigenschaft 'ArtistId' 
+definiert. Diese Eigenschaft beinhaltet die Referenzdaten zur Entität 'Artist'. Die Prüfung auf korrekten Inhalt erfolgt im Projekt MusicStore.Logic'.
 
-Diese Schnittstelle erbt die Schnittstellendefinition von 'IIdentifyable' und ist somit identifizierbar. Weiters ist eine Eigenschaft 'ArtistId' 
-definiert. Diese Eigenschaft beinhaltet die Referenzdaten zum Entity 'Artist'. Die Prüfung auf korrekten Inhalt erfolgt im Projekt MusicStore.Logic'.
-
-Im Projekt ist noch eine weiter Schnittstelle definiert. Diese Schnittstelle befindet sich im Ordner 'Client' und stellt den Zugriff auf die Kontroller-Objekt aus dem Projekt 'MusicStore.Logic' dar. Alle Kontroller, im Projekt 'MusicStroe.Logic' implementieren diese Schnittstelle. 
+Im Projekt ist noch eine weitere Schnittstelle definiert. Diese Schnittstelle befindet sich im Ordner 'Client' und stellt den Zugriff auf das Kontroller-Objekt aus dem Projekt 'MusicStore.Logic' dar. Alle Kontroller, im Projekt 'MusicStroe.Logic', implementieren diese Schnittstelle.  
 
 ```csharp ({"Type": "FileRef", "File": "Contracts/Client/IControllerAccess.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 using System;
@@ -178,8 +258,8 @@ namespace MusicStore.Contracts.Client
     }
 }
 ```  
-Die Definition der Schnittstelle ist generisch und für diesen genersischen Parameter können alle Schnittstellen vom Typ 'Identifyable' eingestezt werden. 
-Das ist natürlich ein riesen Vorteil weil diese Schnittstelle nur einmal definiert werden muss und für alle Kontroller verwendet werden. Diese Schnittstelle ist von IDisposable abgeleitet. Damit wird folgende Regel in Betracht gezogen. Alle Komponenten, welche eine Ressource beinhalten oder beinhalten könnten müssen diese Schnittstelle implementieren. Aus dieser Regel ergibt sich, dass alle Objekte, welche diese Schnittstelle implementieren, mit dem Schlüsselwort 'using' verwendet werden müssen. Nachdem ein Kontroller einen 'DbContext' binhalten kann, muss dieser ebenfalls wieder freigegeben werden. 
+Die Definition dieser Schnittstelle ist generisch und für diesen generischen Parameter können alle Schnittstellen vom Typ 'IIdentifyable' eingestezt werden. 
+Diese [generische Schnittstelle](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/generics/generic-interfaces) ist ein großer Vorteil, weil nur einmal definiert werden muss und für alle Kontrollertypen verwendet werden kann. Diese Schnittstelle ist von IDisposable abgeleitet. Damit wird folgende Regel in Betracht gezogen. Alle Komponenten, welche eine Ressource beinhalten oder beinhalten könnten müssen diese Schnittstelle implementieren. Aus dieser Regel ergibt sich, dass alle Objekte, welche diese Schnittstelle implementieren, mit dem Schlüsselwort 'using' verwendet werden müssen. Nachdem ein Kontroller einen 'DbContext' binhalten kann, muss dieser ebenfalls wieder freigegeben werden. 
 
 ### MusicStore.Logic
 Dieses Projekt nimmt eine zentrale Stellung in dieser System-Architektur ein. Die gesamte Geschäftslogik ist in diesem Projekt implementiert. Aus diesem Grund müssen Änderungen in diesem Projekt mit besonderer Sorgfalt durchgeführt werden. Es gilt folgende Regel:  
