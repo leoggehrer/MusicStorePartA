@@ -260,7 +260,13 @@ namespace MusicStore.Contracts.Client
 ```  
 Die Definition dieser Schnittstelle ist generisch und für diesen generischen Parameter können alle Schnittstellen vom Typ 'IIdentifyable' eingestezt werden. 
 Diese [generische Schnittstelle](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/generics/generic-interfaces) ist ein großer Vorteil, weil diese nur einmal definiert werden muss und für alle Kontrollertypen verwendet werden kann.  
-Diese Schnittstelle ist von IDisposable abgeleitet. Damit wird folgende Regel in Betracht gezogen. Alle Komponenten, welche eine Ressource beinhalten oder beinhalten könnten, müssen diese Schnittstelle implementieren. Aus dieser Regel ergibt sich, dass alle Objekte, welche diese Schnittstelle implementieren, mit dem Schlüsselwort 'using' verwendet werden müssen. Nachdem ein Kontroller einen 'DbContext' binhalten kann, muss dieser ebenfalls wieder freigegeben werden. 
+Diese Schnittstelle ist von IDisposable abgeleitet. Damit wird folgende Regel in Betracht gezogen. Alle Komponenten, welche eine Ressource beinhalten oder beinhalten könnten, müssen diese Schnittstelle implementieren. Aus dieser Regel ergibt sich, dass alle Objekte, welche diese Schnittstelle implementieren, mit dem Schlüsselwort 'using' verwendet werden müssen. Nachdem ein Kontroller einen 'DbContext' beinhalten kann, muss dieser ebenfalls wieder freigegeben werden. 
+
+Die Ordnerstruktur von 'MusicStore.Contracts':
+
+![OrdnerStruktur](MusicStoreContracts.png)
+
+**Hinweis:** Die Datein mit der Endung '.cd' sind die Klassendiagramme von Visual Studio.
 
 ### MusicStore.Logic
 Dieses Projekt nimmt eine zentrale Stellung in dieser System-Architektur ein. Die gesamte Geschäftslogik ist in diesem Projekt implementiert. Aus diesem Grund müssen Änderungen in diesem Projekt mit besonderer Sorgfalt durchgeführt werden. Es gilt folgende Regel:  
