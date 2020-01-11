@@ -23,8 +23,8 @@ namespace MusicStore.Logic.Entities.Persistence
             ArtistId = other.ArtistId;
             Title = other.Title;
         }
-		public Artist Artist { get; set; }
-		public IEnumerable<Track> Tracks { get; set; }
+        public Artist Artist { get; set; }
+        public IEnumerable<Track> Tracks { get; set; }
     }
 }
 //MdEnd

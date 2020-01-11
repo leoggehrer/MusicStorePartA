@@ -33,8 +33,8 @@ namespace MusicStore.Logic.Entities.Persistence
             UnitPrice = other.UnitPrice;
         }
 
-		public Album Album { get; set; }
-		public Genre Genre { get; set; }
+        public Album Album { get; set; }
+        public Genre Genre { get; set; }
     }
 }
-//MdStart
+//MdEnd

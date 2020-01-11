@@ -5,7 +5,7 @@ using MusicStore.Contracts.Client;
 
 namespace MusicStore.Logic
 {
-	public static class Factory
+    public static class Factory
     {
         public enum PersistenceType
         {
@@ -112,39 +112,39 @@ namespace MusicStore.Logic
         /// </summary>
         /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
         /// <returns>The controller's interface.</returns>
-		public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController(object sharedController)
-		{
-			if (sharedController == null)
-				throw new ArgumentNullException(nameof(sharedController));
+        public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController(object sharedController)
+        {
+            if (sharedController == null)
+                throw new ArgumentNullException(nameof(sharedController));
 
-			Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
+            Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
 
-			return new Controllers.Persistence.GenreController(controller);
-		}
+            return new Controllers.Persistence.GenreController(controller);
+        }
 
         /// <summary>
         /// This method creates a controller object for the artist entity type.
         /// </summary>
         /// <returns>The controller's interface.</returns>
-		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController()
-		{
-			return new Controllers.Persistence.ArtistController(CreateContext());
-		}
+        public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController()
+        {
+            return new Controllers.Persistence.ArtistController(CreateContext());
+        }
         /// <summary>
         /// This method creates a controller object for the artist entity type. The DataContext object is used 
         /// from the parameter object.
         /// </summary>
         /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
         /// <returns>The controller's interface.</returns>
-		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController(object sharedController)
-		{
-			if (sharedController == null)
-				throw new ArgumentNullException(nameof(sharedController));
+        public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController(object sharedController)
+        {
+            if (sharedController == null)
+                throw new ArgumentNullException(nameof(sharedController));
 
-			Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
+            Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
 
-			return new Controllers.Persistence.ArtistController(controller);
-		}
+            return new Controllers.Persistence.ArtistController(controller);
+        }
 
         /// <summary>
         /// This method creates a controller object for the album entity type.

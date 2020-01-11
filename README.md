@@ -267,7 +267,170 @@ Dieses Projekt nimmt eine zentrale Stellung in dieser System-Architektur ein. Di
 
 **KEIN OBJEKT DARF DIESE SCHICHT VERLASSEN - NUR SCHNITTSTELLEN!**  
 
-Aus diesem Grund gibt es eine einzige Klasse die nach außen sichtbar ist. Diese Klasse heißt 'Factory' und beinhaltet die Fabrik-Methoden, welche die Kontroller-Objekte intanziieren und deren Schnittstellen nach außen leiten. Nachfolgend der Programmcode für die Erzeuger der Kontroller Objekte:
+Aus diesem Grund gibt es eine einzige Klasse die nach außen sichtbar ist. Diese Klasse heißt 'Factory' und beinhaltet die Fabrik-Methoden, welche die Kontroller-Objekte intanziieren und deren Schnittstellen nach außen leiten. Die Beschreibung dieser Klasse erfolgt am Schluß dieses Kapitels.
+
+#### Entitäten
+Die Entitäten implementieren die Schnittstellen aus dem Projekt 'MusicStore.Contracts' und sind im Ordner 'Entities' definiert. Der Klassendesigner zeigt folgendes Diagramm für die persistierenden Entitäten:
+
+![Entities](Entities.png)
+
+Zu den Vorgaben, welche die Schnittstellen definieren, werden auch Navigations-Eigenschaften implementiert. Dies bedeutet, dass die Entitäten Zugriff auf ihre Relations-Objekte haben.  
+
+Die Implementierung der Schnittstelle 'IIdentifiable':
+
+```csharp ({"Type": "FileRef", "File": "Entities/IdentityObject.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System;
+
+namespace MusicStore.Logic.Entities
+{
+    /// <inheritdoc />
+    /// <summary>
+    /// Implements the properties and methods of identifiable model.
+    /// </summary>
+    [Serializable]
+    internal abstract partial class IdentityObject : Contracts.IIdentifiable
+    {
+        /// <inheritdoc />
+        public int Id { get; set; }
+    }
+}
+```  
+
+Die Implementierung der Schnittstelle 'IAlbum':
+
+```csharp ({"Type": "FileRef", "File": "Entities/Persistence/Album.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System;
+using System.Collections.Generic;
+using CommonBase.Extensions;
+
+namespace MusicStore.Logic.Entities.Persistence
+{
+    /// <summary>
+    /// Implements the properties and methods of album model.
+    /// </summary>
+    [Serializable]
+    partial class Album : IdentityObject, Contracts.Persistence.IAlbum
+    {
+        public int ArtistId { get; set; }
+        public string Title { get; set; }
+
+        public void CopyProperties(Contracts.Persistence.IAlbum other)
+        {
+            other.CheckArgument(nameof(other));
+
+            Id = other.Id;
+            ArtistId = other.ArtistId;
+            Title = other.Title;
+        }
+        public Artist Artist { get; set; }
+        public IEnumerable<Track> Tracks { get; set; }
+    }
+}
+```  
+
+Die Implementierung der Schnittstelle 'IGenre':
+
+```csharp ({"Type": "FileRef", "File": "Entities/Persistence/Genre.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System;
+using System.Collections.Generic;
+using CommonBase.Extensions;
+
+namespace MusicStore.Logic.Entities.Persistence
+{
+    /// <summary>
+    /// Implements the properties and methods of genre model.
+    /// </summary>
+    [Serializable]
+    partial class Genre : IdentityObject, Contracts.Persistence.IGenre
+    {
+        public string Name { get; set; }
+
+        public void CopyProperties(Contracts.Persistence.IGenre other)
+        {
+            other.CheckArgument(nameof(other));
+
+            Id = other.Id;
+            Name = other.Name;
+        }
+
+        public IEnumerable<Track> Tracks { get; set; }
+    }
+}
+```  
+
+Die Implementierung der Schnittstelle 'IArtist':
+
+```csharp ({"Type": "FileRef", "File": "Entities/Persistence/Artist.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System;
+using System.Collections.Generic;
+using CommonBase.Extensions;
+
+namespace MusicStore.Logic.Entities.Persistence
+{
+    /// <summary>
+    /// Implements the properties and methods of artist model.
+    /// </summary>
+    [Serializable]
+    partial class Artist : IdentityObject, Contracts.Persistence.IArtist
+    {
+        public string Name { get; set; }
+
+        public void CopyProperties(Contracts.Persistence.IArtist other)
+        {
+            other.CheckArgument(nameof(other));
+
+            Id = other.Id;
+            Name = other.Name;
+        }
+
+        public IEnumerable<Album> Albums { get; set; }
+    }
+}
+```  
+
+Die Implementierung der Schnittstelle 'ITrack':
+
+```csharp ({"Type": "FileRef", "File": "Entities/Persistence/Track.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System;
+using CommonBase.Extensions;
+
+namespace MusicStore.Logic.Entities.Persistence
+{
+    /// <summary>
+    /// Implements the properties and methods of track model.
+    /// </summary>
+    [Serializable]
+    partial class Track : IdentityObject, Contracts.Persistence.ITrack
+    {
+        public int AlbumId { get; set; }
+        public int GenreId { get; set; }
+        public string Title { get; set; }
+        public string Composer { get; set; }
+        public long Milliseconds { get; set; }
+        public long Bytes { get; set; }
+        public double UnitPrice { get; set; }
+
+        public void CopyProperties(Contracts.Persistence.ITrack other)
+        {
+            other.CheckArgument(nameof(other));
+
+            Id = other.Id;
+            AlbumId = other.AlbumId;
+            GenreId = other.GenreId;
+            Title = other.Title;
+            Composer = other.Composer;
+            Milliseconds = other.Milliseconds;
+            Bytes = other.Bytes;
+            UnitPrice = other.UnitPrice;
+        }
+
+        public Album Album { get; set; }
+        public Genre Genre { get; set; }
+    }
+}
+```  
+
+Nachfolgend der Programmcode für die Erzeuger der Kontroller Objekte:
 
 ```csharp ({"Type": "FileRef", "File": "Logic/Factory.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 using System;
@@ -275,7 +438,7 @@ using MusicStore.Contracts.Client;
 
 namespace MusicStore.Logic
 {
-	public static class Factory
+    public static class Factory
     {
         public enum PersistenceType
         {
@@ -382,39 +545,39 @@ namespace MusicStore.Logic
         /// </summary>
         /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
         /// <returns>The controller's interface.</returns>
-		public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController(object sharedController)
-		{
-			if (sharedController == null)
-				throw new ArgumentNullException(nameof(sharedController));
+        public static IControllerAccess<Contracts.Persistence.IGenre> CreateGenreController(object sharedController)
+        {
+            if (sharedController == null)
+                throw new ArgumentNullException(nameof(sharedController));
 
-			Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
+            Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
 
-			return new Controllers.Persistence.GenreController(controller);
-		}
+            return new Controllers.Persistence.GenreController(controller);
+        }
 
         /// <summary>
         /// This method creates a controller object for the artist entity type.
         /// </summary>
         /// <returns>The controller's interface.</returns>
-		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController()
-		{
-			return new Controllers.Persistence.ArtistController(CreateContext());
-		}
+        public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController()
+        {
+            return new Controllers.Persistence.ArtistController(CreateContext());
+        }
         /// <summary>
         /// This method creates a controller object for the artist entity type. The DataContext object is used 
         /// from the parameter object.
         /// </summary>
         /// <param name="sharedController">The controller object from which the DataContext is to be shared.</param>
         /// <returns>The controller's interface.</returns>
-		public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController(object sharedController)
-		{
-			if (sharedController == null)
-				throw new ArgumentNullException(nameof(sharedController));
+        public static IControllerAccess<Contracts.Persistence.IArtist> CreateArtistController(object sharedController)
+        {
+            if (sharedController == null)
+                throw new ArgumentNullException(nameof(sharedController));
 
-			Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
+            Controllers.ControllerObject controller = (Controllers.ControllerObject)sharedController;
 
-			return new Controllers.Persistence.ArtistController(controller);
-		}
+            return new Controllers.Persistence.ArtistController(controller);
+        }
 
         /// <summary>
         /// This method creates a controller object for the album entity type.
@@ -738,7 +901,6 @@ namespace MusicStore.Logic.DataContext
             artists = LoadEntities<Entities.Persistence.Artist>();
             albums = LoadEntities<Entities.Persistence.Album>();
             tracks = LoadEntities<Entities.Persistence.Track>();
-            //LoadRelations();
         }
         #region Load methods
         protected abstract List<T> LoadEntities<T>()

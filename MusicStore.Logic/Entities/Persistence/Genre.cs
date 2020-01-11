@@ -14,15 +14,15 @@ namespace MusicStore.Logic.Entities.Persistence
     {
         public string Name { get; set; }
 
-		public void CopyProperties(Contracts.Persistence.IGenre other)
-		{
+        public void CopyProperties(Contracts.Persistence.IGenre other)
+        {
             other.CheckArgument(nameof(other));
 
             Id = other.Id;
-			Name = other.Name;
-		}
+            Name = other.Name;
+        }
 
-		public IEnumerable<Track> Tracks { get; set; }
-	}
+        public IEnumerable<Track> Tracks { get; set; }
+    }
 }
 //MdEnd
