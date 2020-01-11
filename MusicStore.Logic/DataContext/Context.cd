@@ -9,14 +9,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MusicStore.Logic.DataContext.FileContext">
-    <Position X="3.5" Y="0.5" Width="1.5" />
+    <Position X="3" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAQAAAAAICQAAAAAAAAAAAAAEAABA=</HashCode>
       <FileName>DataContext\FileContext.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MusicStore.Logic.DataContext.MusicStoreFileContext">
-    <Position X="3.5" Y="4" Width="1.75" />
+    <Position X="3" Y="4" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AgQAAEAAAEAABABAAAIAAAQCAAEAAEAIAEAACABCAIA=</HashCode>
       <FileName>DataContext\MusicStoreFileContext.cs</FileName>
@@ -31,7 +31,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="MusicStore.Logic.DataContext.Db.DbMusicStoreContext">
-    <Position X="9.5" Y="3.5" Width="1.5" />
+    <Position X="8" Y="4" Width="1.75" />
     <TypeIdentifier>
       <HashCode>CAQAAMAAAUAAAAAAAgJAEAQAEAEAAEAAAGAACAAAAAA=</HashCode>
       <FileName>DataContext\Db\DbMusicStoreContext.cs</FileName>
@@ -39,14 +39,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MusicStore.Logic.DataContext.Ser.SerMusicStoreContext">
-    <Position X="6.5" Y="4.25" Width="2" />
+    <Position X="5.5" Y="4" Width="2" />
     <TypeIdentifier>
       <HashCode>AgAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DataContext\Ser\SerMusicStoreContext.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="MusicStore.Logic.DataContext.IMusicStoreContext">
-    <Position X="8.25" Y="0.5" Width="1.5" />
+    <Position X="6.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAIAAAAAAAAAAAAAAEAACAAAAAA=</HashCode>
       <FileName>DataContext\IMusicStoreContext.cs</FileName>

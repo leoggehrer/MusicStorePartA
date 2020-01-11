@@ -267,7 +267,7 @@ Dieses Projekt nimmt eine zentrale Stellung in dieser System-Architektur ein. Di
 
 **KEIN OBJEKT DARF DIESE SCHICHT VERLASSEN - NUR SCHNITTSTELLEN!**  
 
-Aus diesem Grund gibt es eine einzige Klasse die nach außen sichtbar ist. Diese Klasse heißt 'Factory' und beinhaltet die Fabrik-Methoden, welche die Kontroller-Objekte intanziieren und deren Schnittstellen nach außen leiten. Im nachfolgenden der Programmcode für die Erzeuger-Fabrik-Methode:
+Aus diesem Grund gibt es eine einzige Klasse die nach außen sichtbar ist. Diese Klasse heißt 'Factory' und beinhaltet die Fabrik-Methoden, welche die Kontroller-Objekte intanziieren und deren Schnittstellen nach außen leiten. Nachfolgend der Programmcode für die Erzeuger der Kontroller Objekte:
 
 ```csharp ({"Type": "FileRef", "File": "Logic/Factory.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 using System;
@@ -537,8 +537,384 @@ namespace MusicStore.Contracts.Client
 }
 ```  
  Zu beachten ist, dass diese Schnittstelle von der Schnittstelle 'IDisposable' abgeleitet ist. Das bedeutet, dass diese Objekte ausnahmslos mit dem using-Statement zu verwenden sind. Diese **Verwendungsregel** gilt für alle Objekte welche diese Schnittstelle implementieren.  
+
+Eine weitere wichtige Schnittstelle ist die Schnittstelle 'IContext' im Ordener DataContext. Diese Schnittstelle abstrahiert die Persistierung vor dem Kontroller und der Kontroller weiß nicht, ob die Persistierung mit einer Datei (Csv oder Ser) oder mit einer Datenbank erfolgt. Im nachfolgendem ist der Programmcode dieser Schnittstelle angeführt:
+
+```csharp ({"Type": "FileRef", "File": "DataContext/IContext.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System;
+using MusicStore.Contracts;
+using MusicStore.Logic.Entities;
+
+namespace MusicStore.Logic.DataContext
+{
+    internal partial interface IContext : IDisposable
+    {
+        #region Sync-Methods
+        int Count<I, E>()
+            where I : IIdentifiable
+            where E : IdentityObject, I;
+
+        E Create<I, E>()
+            where I : IIdentifiable
+            where E : IdentityObject, ICopyable<I>, I, new();
+
+        E Insert<I, E>(I entity)
+            where I : IIdentifiable
+            where E : IdentityObject, ICopyable<I>, I, new();
+
+        E Update<I, E>(I entity)
+            where I : IIdentifiable
+            where E : IdentityObject, ICopyable<I>, I, new();
+
+        E Delete<I, E>(int id)
+            where I : IIdentifiable
+            where E : IdentityObject, I;
+
+        void Save();
+        #endregion Sync-Methods
+    }
+}
+```  
   
-Im nächsten Teil (PartB) soll die Schnittstelle 'IControllerAccess\<T\>' um asynchrone Methoden erweitert werden. Das asynchrone Programmierkonzept zählt zu den wesentlichsten Erweiterung im DotNet-Framework und wird in der Programmiersprache C# seit der Version 5.0 unterstützt. Informationen zu diesem Thema finden sich unter folgendem Link [Asynchrone Programmierung](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/concepts/async/index).  
+Der Programmcode zeigt, dass diese Schnittstelle die Grundoperationen für das Persistieren der Entitäten definiert. Die Abstraktion der Persistierung ist wesentlich komplexer. In der Abbildung ist der Aufbau der einzelnen Persistierungseinheiten dargestellt:
+
+![DataContext](Context.png)  
+
+Die Implementierung der Klasse 'ContextObject':
+  
+```csharp ({"Type": "FileRef", "File": "DataContext/ContextObject.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using MusicStore.Contracts;
+using MusicStore.Logic.Entities;
+
+namespace MusicStore.Logic.DataContext
+{
+    internal abstract partial class ContextObject : IContext
+    {
+        #region Sync-Methods
+        public abstract int Count<I, E>()
+            where I : IIdentifiable
+            where E : IdentityObject, I;
+        public abstract E Create<I, E>()
+            where I : IIdentifiable
+            where E : IdentityObject, I, ICopyable<I>, new();
+        public abstract E Insert<I, E>(I entity)
+            where I : IIdentifiable
+            where E : IdentityObject, I, ICopyable<I>, new();
+        public abstract E Update<I, E>(I entity)
+            where I : IIdentifiable
+            where E : IdentityObject, I, ICopyable<I>, new();
+        public abstract E Delete<I, E>(int id)
+            where I : IIdentifiable
+            where E : IdentityObject, I;
+        public abstract void Save();
+        #endregion Sync-Methods
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~ContextObject()
+        // {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+    }
+}
+```  
+  
+```csharp ({"Type": "FileRef", "File": "DataContext/FileContext.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using CommonBase.Extensions;
+using CommonBase.Helpers;
+
+namespace MusicStore.Logic.DataContext
+{
+    internal abstract partial class FileContext : ContextObject
+    {
+        public string CsvFolderName => "CsvData";
+        public string SerFolderName => "SerData";
+        
+        protected IEnumerable<T> GetSaveItems<T>(IEnumerable<T> source) where T : Entities.IdentityObject
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            List<T> result = new List<T>();
+
+            foreach (var item in source)
+            {
+                if (item.Id == 0)
+                {
+                    item.Id = source.NextValue(i => i.Id);
+                }
+                result.Add(item);
+            }
+            return result;
+        }
+
+        protected List<T> LoadFromCsv<T>() where T : class, new()
+        {
+            return new List<T>(FileHelper.ReadFromCsv<T>(FileHelper.GetCsvFilePath(CsvFolderName, typeof(T))));
+        }
+
+        protected IEnumerable<T> SaveToCsv<T>(IEnumerable<T> source) where T : Entities.IdentityObject
+        {
+            IEnumerable<T> result = GetSaveItems<T>(source);
+            string filePath = FileHelper.GetCsvFilePath(CsvFolderName, typeof(T));
+
+            FileHelper.WriteToCsv<T>(filePath, result.ToArray());
+            return result;
+        }
+
+        protected List<T> LoadFromSer<T>() where T : class, new()
+        {
+            string filePath = FileHelper.GetSerFilePath(SerFolderName, typeof(T));
+
+            return new List<T>(FileHelper.Deserialize<T>(filePath));
+        }
+
+        protected IEnumerable<T> SaveToSer<T>(IEnumerable<T> source) where T : Entities.IdentityObject
+        {
+            IEnumerable<T> result = GetSaveItems<T>(source);
+            string filePath = FileHelper.GetSerFilePath(SerFolderName, typeof(T));
+
+            FileHelper.Serialize(filePath, result);
+            return result;
+        }
+    }
+}
+```  
+
+```csharp ({"Type": "FileRef", "File": "DataContext/MusicStoreFileContext.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using CommonBase.Extensions;
+
+namespace MusicStore.Logic.DataContext
+{
+    abstract partial class MusicStoreFileContext : FileContext, IMusicStoreContext
+    {
+        private readonly List<Entities.Persistence.Genre> genres = null;
+        public IEnumerable<Entities.Persistence.Genre> Genres => genres;
+        private readonly List<Entities.Persistence.Artist> artists = null;
+        public IEnumerable<Entities.Persistence.Artist> Artists => artists;
+        private readonly List<Entities.Persistence.Album> albums = null;
+        public IEnumerable<Entities.Persistence.Album> Albums => albums;
+        private readonly List<Entities.Persistence.Track> tracks = null;
+        public IEnumerable<Entities.Persistence.Track> Tracks => tracks;
+
+        public MusicStoreFileContext()
+        {
+            genres = LoadEntities<Entities.Persistence.Genre>();
+            artists = LoadEntities<Entities.Persistence.Artist>();
+            albums = LoadEntities<Entities.Persistence.Album>();
+            tracks = LoadEntities<Entities.Persistence.Track>();
+            //LoadRelations();
+        }
+        #region Load methods
+        protected abstract List<T> LoadEntities<T>()
+            where T : class, new();
+        protected void LoadRelations()
+        {
+            // Load reference data for track items
+            tracks.ForEach(t =>
+            {
+                t.Album = albums.SingleOrDefault(i => i.Id == t.AlbumId);
+                t.Genre = genres.SingleOrDefault(i => i.Id == t.GenreId);
+            });
+            // Load reference data for album items
+            albums.ForEach(a =>
+            {
+                a.Artist = artists.SingleOrDefault(ar => ar.Id == a.ArtistId);
+                a.Tracks = tracks.Where(t => t.AlbumId == a.Id);
+            });
+            // Load reference data for artist items
+            artists.ForEach(ar =>
+            {
+                ar.Albums = albums.Where(a => a.ArtistId == ar.Id);
+            });
+            // Load reference data for genre items
+            genres.ForEach(g =>
+            {
+                g.Tracks = tracks.Where(t => t.GenreId == g.Id);
+            });
+        }
+        #endregion Load methods
+
+        #region Sync-Methods
+        public override int Count<I, E>()
+        {
+            return Set<I, E>().Count;
+        }
+        public override E Create<I, E>()
+        {
+            return new E();
+        }
+        public override E Insert<I, E>(I entity)
+        {
+            entity.CheckArgument(nameof(entity));
+
+            E result = new E();
+
+            result.CopyProperties(entity);
+            result.Id = 0;
+            Set<I, E>().Add(result);
+            return result;
+        }
+        public override E Update<I, E>(I entity)
+        {
+            entity.CheckArgument(nameof(entity));
+
+            E result = Set<I, E>().SingleOrDefault(i => i.Id == entity.Id);
+
+            if (result != null)
+            {
+                result.CopyProperties(entity);
+            }
+            return result;
+        }
+        public override E Delete<I, E>(int id)
+        {
+            E result = Set<I, E>().SingleOrDefault(i => i.Id == id);
+
+            if (result != null)
+            {
+                Set<I, E>().Remove(result);
+            }
+            return result;
+        }
+        #endregion Sync-Methods
+
+        #region Helpers
+        protected List<E> Set<I, E>()
+            where I : Contracts.IIdentifiable
+            where E : Entities.IdentityObject, I
+        {
+            List<E> result;
+
+            if (typeof(I) == typeof(Contracts.Persistence.IGenre))
+            {
+                result = genres as List<E>;
+            }
+            else if (typeof(I) == typeof(Contracts.Persistence.IArtist))
+            {
+                result = artists as List<E>;
+            }
+            else if (typeof(I) == typeof(Contracts.Persistence.IAlbum))
+            {
+                result = albums as List<E>;
+            }
+            else if (typeof(I) == typeof(Contracts.Persistence.ITrack))
+            {
+                result = tracks as List<E>;
+            }
+            else
+            {
+                throw new ArgumentException(
+                               message: "entity is not a recognized entity",
+                               paramName: nameof(I));
+            }
+            return result;
+        }
+        protected E GetById<I, E>(int id)
+            where I : Contracts.IIdentifiable
+            where E : Entities.IdentityObject, I
+        {
+            return Set<I, E>().SingleOrDefault(i => i.Id == id);
+        }
+        #endregion Helpers
+    }
+}
+```  
+
+```csharp ({"Type": "FileRef", "File": "DataContext/Csv/CsvMusicStoreContext.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System.Collections.Generic;
+
+namespace MusicStore.Logic.DataContext.Csv
+{
+    internal partial class CsvMusicStoreContext : MusicStoreFileContext
+    {
+        public CsvMusicStoreContext()
+        {
+        }
+
+        protected override List<T> LoadEntities<T>()
+        {
+            return LoadFromCsv<T>();
+        }
+
+        #region Sync-Methods
+        public override void Save()
+        {
+            SaveToCsv(Genres);
+            SaveToCsv(Artists);
+            SaveToCsv(Albums);
+            SaveToCsv(Tracks);
+        }
+        #endregion Sync-Methods
+    }
+}
+```  
+
+```csharp ({"Type": "FileRef", "File": "DataContext/Ser/SerMusicStoreContext.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System.Collections.Generic;
+
+namespace MusicStore.Logic.DataContext.Ser
+{
+    internal partial class SerMusicStoreContext : MusicStoreFileContext
+    {
+        public SerMusicStoreContext()
+        {
+        }
+
+        protected override List<T> LoadEntities<T>()
+        {
+            return LoadFromSer<T>();
+        }
+
+        #region Sync-Methods
+        public override void Save()
+        {
+            SaveToSer(Genres);
+            SaveToSer(Artists);
+            SaveToSer(Albums);
+            SaveToSer(Tracks);
+        }
+        #endregion Sync-Methods
+    }
+}
+```  
+
+
+Im nächsten Teil (PartB) soll die Schnittstelle 'IControllerAccess<T>' um asynchrone Methoden erweitert werden. Das asynchrone Programmierkonzept zählt zu den wesentlichsten Erweiterung im DotNet-Framework und wird in der Programmiersprache C# seit der Version 5.0 unterstützt. Informationen zu diesem Thema finden sich unter folgendem Link [Asynchrone Programmierung](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/concepts/async/index).  
 
 **Viel Spaß beim Erstellen!**
-

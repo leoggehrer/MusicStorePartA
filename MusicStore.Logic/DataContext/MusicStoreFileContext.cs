@@ -24,7 +24,6 @@ namespace MusicStore.Logic.DataContext
             artists = LoadEntities<Entities.Persistence.Artist>();
             albums = LoadEntities<Entities.Persistence.Album>();
             tracks = LoadEntities<Entities.Persistence.Track>();
-            //LoadRelations();
         }
         #region Load methods
         protected abstract List<T> LoadEntities<T>()

@@ -18,10 +18,10 @@ namespace MusicStore.Logic.DataContext.Db
 
         }
 
-        public IEnumerable<Genre> Genres => GenreSet.ToArray();
-        public IEnumerable<Artist> Artists => ArtistSet.ToArray();
-        public IEnumerable<Album> Albums => AlbumSet.ToArray();
-        public IEnumerable<Track> Tracks => TrackSet.ToArray();
+        public IEnumerable<Genre> Genres => GenreSet;
+        public IEnumerable<Artist> Artists => ArtistSet;
+        public IEnumerable<Album> Albums => AlbumSet;
+        public IEnumerable<Track> Tracks => TrackSet;
 
         public DbSet<Genre> GenreSet { get; set; }
         public DbSet<Artist> ArtistSet { get; set; }
