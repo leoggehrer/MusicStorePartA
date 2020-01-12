@@ -714,10 +714,45 @@ namespace MusicStore.Logic.Controllers
 }
 ```  
 
-Die generischen Parameter 'E und I' 
+Erklärung der generischen Parameter 'E und I':  
+I...Muss eine Schnittstelle und vom Typ 'IIdentifiable' sein.
+E...Muss ein Typ IdentityObject sein, muss die Schnittstellen I und ICopyable\<I\> implementieren und einen parameterlosen Konstruktor bereitstellen.
 
+```csharp ({"Type": "FileRef", "File": "Logic/Controllers/Persistence/MusicStoreController.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using MusicStore.Logic.DataContext;
 
-   
+namespace MusicStore.Logic.Controllers.Persistence
+{
+    /// <summary>
+    /// This class is the specification of a generic controller to a project controller.
+    /// </summary>
+    internal abstract partial class MusicStoreController<E, I> : GenericController<E, I>
+       where E : Entities.IdentityObject, I, Contracts.ICopyable<I>, new()
+       where I : Contracts.IIdentifiable
+    {
+        protected IMusicStoreContext MusicStoreContext => (IMusicStoreContext)Context;
+
+        /// <summary>
+        /// This constructor creates an instance and takes over the context assigned to it.
+        /// </summary>
+        /// <param name="context">Context assigned to the controller.</param>
+        protected MusicStoreController(IContext context)
+            : base(context)
+        {
+        }
+        /// <summary>
+        /// This constructor creates an instance and takes over the context of another controller.
+        /// </summary>
+        /// <param name="controller">The controller object from which the context is taken.</param>
+        protected MusicStoreController(ControllerObject controller)
+            : base(controller)
+        {
+
+        }
+    }
+}
+```  
+  
 Nachfolgend der Programmcode für die Erzeuger der Kontroller Objekte:
 
 ```csharp ({"Type": "FileRef", "File": "Logic/Factory.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
