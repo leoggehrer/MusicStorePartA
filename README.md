@@ -435,6 +435,7 @@ namespace MusicStore.Logic.Entities.Persistence
     }
 }
 ```  
+Die Implementierung der Entitäts-Klassen sind mit dem Attribut 'Serializable' gekennzeichnet. Dies ist nur erfoderlich, wenn die Entitäts-Objekte serialisiert werden sollen.  
 
 Nachfolgend der Programmcode für die Erzeuger der Kontroller Objekte:
 
