@@ -7,7 +7,7 @@ namespace MusicStore.Logic.Controllers
 {
     internal abstract partial class ControllerObject : IDisposable
     {
-		private bool contextDispose;
+        private bool contextDispose;
         protected IContext Context { get; private set; }
 
         protected ControllerObject(IContext context)
@@ -16,16 +16,16 @@ namespace MusicStore.Logic.Controllers
                 throw new ArgumentNullException(nameof(context));
 
             Context = context;
-			contextDispose = true;
+            contextDispose = true;
         }
-		protected ControllerObject(ControllerObject controller)
-		{
-			if (controller == null)
-				throw new ArgumentNullException(nameof(controller));
+        protected ControllerObject(ControllerObject controller)
+        {
+            if (controller == null)
+                throw new ArgumentNullException(nameof(controller));
 
-			Context = controller.Context;
-			contextDispose = false;
-		}
+            Context = controller.Context;
+            contextDispose = false;
+        }
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -37,15 +37,15 @@ namespace MusicStore.Logic.Controllers
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects).
-					if (contextDispose && Context != null)
-					{
-						Context.Dispose();
-					}
+                    if (contextDispose && Context != null)
+                    {
+                        Context.Dispose();
+                    }
                 }
 
-				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-				// TODO: set large fields to null.
-				Context = null;
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+                Context = null;
                 disposedValue = true;
             }
         }

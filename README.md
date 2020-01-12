@@ -263,7 +263,7 @@ namespace MusicStore.Contracts.Client
 }
 ```  
 Die Definition dieser Schnittstelle ist generisch und für diesen generischen Parameter können alle Schnittstellen vom Typ 'IIdentifyable' eingestezt werden. 
-Diese [generische Schnittstelle](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/generics/generic-interfaces) ist ein großer Vorteil, weil diese nur einmal definiert werden muss und für alle Kontrollertypen verwendet werden kann.  
+Die Definition einer [generische Schnittstelle](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/generics/generic-interfaces) ist in diesem Fall ein großer Vorteil, weil diese nur einmal definiert werden muss und für alle Kontrollertypen verwendet werden kann.  
 Diese Schnittstelle ist von IDisposable abgeleitet. Damit wird folgende Regel in Betracht gezogen. Alle Komponenten, welche eine Ressource beinhalten oder beinhalten könnten, müssen diese Schnittstelle implementieren. Aus dieser Regel ergibt sich, dass alle Objekte, welche diese Schnittstelle implementieren, mit dem Schlüsselwort *'using'* verwendet werden müssen. Nachdem ein Kontroller einen 'DbContext' beinhalten kann, muss dieser ebenfalls wieder freigegeben werden. 
 
 **Hinweis:** Die Implementierung dieser Schnittstelle erfogt im Projekt 'MusicStore.Logic' im Bereich 'Controllers'.
@@ -442,6 +442,85 @@ namespace MusicStore.Logic.Entities.Persistence
 }
 ```  
 Die Implementierung der Entitäts-Klassen sind mit dem Attribut 'Serializable' gekennzeichnet. Dies ist nur erfoderlich, wenn die Entitäts-Objekte serialisiert werden sollen.  
+
+#### Implementierung der Kontroller  
+Der Kontroller übernimmt die Steuerung der Entitäten von der Persistierung (z.B.: Datenbank) zum Klient und umgekehrt. Es gibt für jeden Entitätstyp einen eigenen Kontroller. Im nachfolgendem Klassendiagramm ist das Model der Kontroller-Klassen dargestellt:
+
+![Kontroller](Controllers.png)
+
+Als Basis für alle Kontroller-Klassen dient die Klasse 'ControllerObject'. Diese Klasse beinhaltet eine Referenz auf die Ressource 'Context' (Schnittstelle) und sie implementiert das Dispose-Pattern zur Weiterleitung auf die 'Dispose(...)'-Methode im Kontext. Die Weiterleitung erfolgt allerdings nur dann, wenn das Feld 'contextDispose' gesetzt ist. Dieses Feld zeigt an, ob die Instanz der Besitzer von dem Kontext ist oder, ob dieser Kontext von einem anderen Kontroller übernommen worden ist. Die nachfolgende Implementierung des Objektes zeigt die Festlegung des Feldes 'contextDispose' durch die beiden Konstruktoren. 
+
+```csharp ({"Type": "FileRef", "File": "Logic/Controllers/ControllerObject.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System;
+using MusicStore.Logic.DataContext;
+
+namespace MusicStore.Logic.Controllers
+{
+    internal abstract partial class ControllerObject : IDisposable
+    {
+        private bool contextDispose;
+        protected IContext Context { get; private set; }
+
+        protected ControllerObject(IContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            Context = context;
+            contextDispose = true;
+        }
+        protected ControllerObject(ControllerObject controller)
+        {
+            if (controller == null)
+                throw new ArgumentNullException(nameof(controller));
+
+            Context = controller.Context;
+            contextDispose = false;
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                    if (contextDispose && Context != null)
+                    {
+                        Context.Dispose();
+                    }
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+                Context = null;
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~ControllerObject()
+        // {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+    }
+}
+```  
+ss
 
 Nachfolgend der Programmcode für die Erzeuger der Kontroller Objekte:
 

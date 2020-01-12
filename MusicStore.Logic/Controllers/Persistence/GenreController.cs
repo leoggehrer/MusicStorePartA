@@ -9,7 +9,7 @@ namespace MusicStore.Logic.Controllers.Persistence
     {
         protected override IEnumerable<Entities.Persistence.Genre> Set => MusicStoreContext.Genres;
 
-		public GenreController(IContext context)
+        public GenreController(IContext context)
             : base(context)
         {
         }
