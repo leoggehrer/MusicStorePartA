@@ -20,13 +20,21 @@ namespace MusicStore.Logic.Controllers
     {
         protected abstract IEnumerable<E> Set { get; }
 
+        /// <summary>
+        /// This constructor creates an instance and takes over the context assigned to it.
+        /// </summary>
+        /// <param name="context">Context assigned to the controller.</param>
         protected GenericController(IContext context)
             : base(context)
         {
 
         }
-        protected GenericController(ControllerObject controllerObject)
-            : base(controllerObject)
+        /// <summary>
+        /// This constructor creates an instance and takes over the context of another controller.
+        /// </summary>
+        /// <param name="controller">The controller object from which the context is taken.</param>
+        protected GenericController(ControllerObject controller)
+            : base(controller)
         {
 
         }
@@ -134,10 +142,20 @@ namespace MusicStore.Logic.Controllers
 
         }
 
+        protected virtual void BeforeSaveChanges()
+        {
+
+        }
         /// <inheritdoc />
         public void SaveChanges()
         {
+            BeforeSaveChanges();
             Context.Save();
+            AfterSaveChanges();
+        }
+        protected virtual void AfterSaveChanges()
+        {
+
         }
         #endregion Sync-Methods
     }

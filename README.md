@@ -1,4 +1,5 @@
 # MusicStore (Teil A)
+
 Das Projekt 'MusicStore' ist ein kleines datenzentriertes Anwendungsbeispiel mit welchem die Erstellung eines Software-Systems dargestellt werden soll. Aufgrund der Komplexität, die ein Software-System im Allgemeinem darstellt, ist die Erstellung des Beispiels in mehreren Abschnitten unterteilt. Die Aufteilung ist wie folgt definiert:  
 
 + **Teil A** bildet die Basis des Systems und wird in den weiteren Ausbaustufen erweitert 
@@ -10,9 +11,11 @@ Das Projekt 'MusicStore' ist ein kleines datenzentriertes Anwendungsbeispiel mit
 + Teil G (in Bearbeitung) zeigt wie die gesamte Anwendungsstruktur durch den Einsatz eines Code-Generator unterstützt werden kann
 
 ## Das Projekt
+
 Zur Umsetzung des Projektes wird DotNetCore (3.0) als Framework, die Programmiersprache CSharp (C#) und die Entwicklungsumgebung Visual Studio 2019 Community verwendet. Alle Komponenten können kostenlos aus dem Internet heruntergeladen werden.
 
 ### Die Projektstruktur
+
 Als Domainname wird 'MusicStore' verwendet und steht für die Gesamtlösung 'MusicStore'. Das Gesamtprojekt wird in Teilprojekte unterteilt wobei jedes bestimmten Lösungen für einen Teilbereich der Gesamtlösung beinhaltet. Als Namenskonvention für solche Projekt gilt die folgende Regel:  
 
 + [Domainname].[Bereich] => MusicStore.[Bereich]  
@@ -26,8 +29,9 @@ Die Aufteilung, für den Teil A, erfolgt nach der folgenden Struktur:
 |**MusicStore.Contracts**|In dieser Projekt werden alle für das System notwendigen Schnittstellen und Enumerationen umgesetzt.|Library|keine
 |**MusicStore.Logic**|Dieser Projekt beinhaltet den vollständigen Datenzugriff, die gesamte Geschäftslogik und stellt somit den zentralen Baustein des Systems dar. |Library|CommonBase, MusicStore.Contracts
 |**MusicStore.ConApp**|Dieses Projekt ist eine einfache Test-Anwendung zum Kopieren und Ausgeben der Daten. |Console|MusicStore.Contracts, MusicStore.Logic
- 
+
 ### Datenstruktur
+
 Die Datenstruktur vom 'MusicStore' ist überschaulich und besteht im wesentlichen aus 4 Komponenten welche in der folgenden Tabelle zusammengefasst sind:
 
 |Komponente|Beschreibung|Grösse|Mussfeld|Eindeutig|
@@ -60,11 +64,12 @@ Wie aus der Abbildung leicht erkennbar ist, sind für alle Entitäten Schnittste
 **Achtung:** Die Entitäten sind von der Sichtbarkeit 'internal' und können nicht außerhalb der Bibliothek verwendet werden.
 
 ### MusicStore.Contracts
+
 Wie bereits schon erwähnt, befinden sich alle öffentlichen Schnittstelle in diesem Projekt. Die Definitionen der Schnittstellen für die Entities 
 befinden sich im Ordner 'Persistence'. In diesem Ordner befinden sich alle Schnittstellen für die Entitäten, welche im Projekt 'MusicStore.Logic' definiert sind und eine direkten Bezug zu einer Persistenzquelle (z.B. Datenbank Tabelle) haben. Der Klassendesigner zeigt folgendes Diagramm für die Schnittstellen der persistierenden Entitäten: 
 
 ![Scnittstellen](PersistenceContracts.png)  
- 
+
 Zu beachten ist, dass keine Schnittstelle die Navigationseigenschaften der Entitäten modelliert. Das ist sehr wichtig, weil dadurch unbeabsichtigte Fehler entstehen können. Die Erklärung erfolgt im Teil C Web-Api (REST).  
 
 #### Implementierung der Schnittstellen  
@@ -84,6 +89,7 @@ namespace MusicStore.Contracts
     }
 }
 ```  
+
 Die Schnittstelle 'IIdentifyable' definiert eine schreibgeschützte Eigenschaft 'Id'. Diese Eigenschaft kann nur innerhalb des Projektes 'MusicStore.Logic' verändert werden. Diese Schnittstelle bildet die Basis für alle anderen Schnittstellen der Kategorie 'Entity'.  
 
 ```csharp ({"Type": "FileRef", "File": "Contracts/ICopyable.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
@@ -99,9 +105,11 @@ namespace MusicStore.Contracts
 	}
 }
 ```  
+
 Die Schnittstelle 'ICopyable\<T\>' dient zum Übertragen der Daten von einer Entität zu einer anderen Entität.
 
-Nachfolgend, die Definition der Schnittstellen für die Entität 'Album':
+Nachfolgend, die Definition der Schnittstellen für die Entität 'Album':  
+
 ```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/IAlbum.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 namespace MusicStore.Contracts.Persistence
 {
@@ -123,6 +131,7 @@ namespace MusicStore.Contracts.Persistence
 ```
 
 Die Definition der Schnittstellen für die Entität 'Genre':
+
 ```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/IGenre.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 namespace MusicStore.Contracts.Persistence
 {
@@ -140,6 +149,7 @@ namespace MusicStore.Contracts.Persistence
 ```
 
 Die Definition der Schnittstellen für die Entität 'Artist':
+
 ```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/IArtist.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 namespace MusicStore.Contracts.Persistence
 {
@@ -155,7 +165,9 @@ namespace MusicStore.Contracts.Persistence
     }
 }
 ```
+
 Die Definition der Schnittstellen für die Entität 'Track':
+
 ```csharp ({"Type": "FileRef", "File": "Contracts/Persistence/ITrack.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 namespace MusicStore.Contracts.Persistence
 {
@@ -262,6 +274,7 @@ namespace MusicStore.Contracts.Client
     }
 }
 ```  
+
 Die Definition dieser Schnittstelle ist generisch und für diesen generischen Parameter können alle Schnittstellen vom Typ 'IIdentifyable' eingestezt werden. 
 Die Definition einer [generische Schnittstelle](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/generics/generic-interfaces) ist in diesem Fall ein großer Vorteil, weil diese nur einmal definiert werden muss und für alle Kontrollertypen verwendet werden kann.  
 Diese Schnittstelle ist von IDisposable abgeleitet. Damit wird folgende Regel in Betracht gezogen. Alle Komponenten, welche eine Ressource beinhalten oder beinhalten könnten, müssen diese Schnittstelle implementieren. Aus dieser Regel ergibt sich, dass alle Objekte, welche diese Schnittstelle implementieren, mit dem Schlüsselwort *'using'* verwendet werden müssen. Nachdem ein Kontroller einen 'DbContext' beinhalten kann, muss dieser ebenfalls wieder freigegeben werden. 
@@ -275,6 +288,7 @@ Zusammenfassend - die Ordnerstruktur von 'MusicStore.Contracts':
 **Hinweis:** Die Datein mit der Endung '.cd' sind die Klassendiagramme von Visual Studio.
 
 ### MusicStore.Logic
+
 Dieses Projekt nimmt eine zentrale Stellung in dieser System-Architektur ein. Die gesamte Geschäftslogik ist in diesem Projekt implementiert. Aus diesem Grund müssen Änderungen in diesem Projekt mit besonderer Sorgfalt durchgeführt werden. Es gilt folgende Regel:  
 
 **KEIN OBJEKT DARF DIESE SCHICHT VERLASSEN - NUR SCHNITTSTELLEN!**  
@@ -282,6 +296,7 @@ Dieses Projekt nimmt eine zentrale Stellung in dieser System-Architektur ein. Di
 Aus diesem Grund gibt es eine einzige Klasse die nach außen sichtbar ist. Diese Klasse heißt 'Factory' und beinhaltet die Fabrik-Methoden, welche die Kontroller-Objekte intanziieren und deren Schnittstellen nach außen leiten. Die Beschreibung dieser Klasse erfolgt am Schluß dieses Kapitels.
 
 #### Entitäten
+
 Die Entitäten implementieren die Schnittstellen aus dem Projekt 'MusicStore.Contracts' und sind im Ordner 'Entities' definiert. Der Klassendesigner zeigt folgendes Diagramm für die persistierenden Entitäten:
 
 ![Entities](Entities.png)
@@ -441,14 +456,16 @@ namespace MusicStore.Logic.Entities.Persistence
     }
 }
 ```  
+
 Die Implementierung der Entitäts-Klassen sind mit dem Attribut 'Serializable' gekennzeichnet. Dies ist nur erfoderlich, wenn die Entitäts-Objekte serialisiert werden sollen.  
 
 #### Implementierung der Kontroller  
+
 Der Kontroller übernimmt die Steuerung der Entitäten von der Persistierung (z.B.: Datenbank) zum Klient und umgekehrt. Es gibt für jeden Entitätstyp einen eigenen Kontroller. Im nachfolgendem Klassendiagramm ist das Model der Kontroller-Klassen dargestellt:
 
 ![Kontroller](Controllers.png)
 
-Als Basis für alle Kontroller-Klassen dient die Klasse 'ControllerObject'. Diese Klasse beinhaltet eine Referenz auf die Ressource 'Context' (Schnittstelle) und sie implementiert das Dispose-Pattern zur Weiterleitung auf die 'Dispose(...)'-Methode im Kontext. Die Weiterleitung erfolgt allerdings nur dann, wenn das Feld 'contextDispose' gesetzt ist. Dieses Feld zeigt an, ob die Instanz der Besitzer von dem Kontext ist oder, ob dieser Kontext von einem anderen Kontroller übernommen worden ist. Die nachfolgende Implementierung des Objektes zeigt die Festlegung des Feldes 'contextDispose' durch die beiden Konstruktoren. 
+Als Basis für alle Kontroller-Klassen dient die Klasse 'ControllerObject'. Diese Klasse beinhaltet eine Referenz auf die Ressource 'Context' (Schnittstelle) und sie implementiert das Dispose-Pattern zur Weiterleitung auf die 'Dispose(...)'-Methode vom Kontext. Die Weiterleitung erfolgt allerdings nur dann, wenn das Feld 'contextDispose' gesetzt ist. Dieses Feld zeigt an, ob die Instanz der Besitzer von dem Kontext ist oder, ob dieser Kontext von einem anderen Kontroller übernommen worden ist. Die nachfolgende Implementierung des Objektes zeigt die Festlegung des Feldes 'contextDispose' durch die beiden Konstruktoren.
 
 ```csharp ({"Type": "FileRef", "File": "Logic/Controllers/ControllerObject.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 using System;
@@ -456,11 +473,18 @@ using MusicStore.Logic.DataContext;
 
 namespace MusicStore.Logic.Controllers
 {
+    /// <summary>
+    /// This class is the base class of all controller classes and takes over the management of the context.
+    /// </summary>
     internal abstract partial class ControllerObject : IDisposable
     {
         private bool contextDispose;
         protected IContext Context { get; private set; }
 
+        /// <summary>
+        /// This constructor creates an instance and takes over the context assigned to it.
+        /// </summary>
+        /// <param name="context">Context assigned to the controller.</param>
         protected ControllerObject(IContext context)
         {
             if (context == null)
@@ -469,6 +493,10 @@ namespace MusicStore.Logic.Controllers
             Context = context;
             contextDispose = true;
         }
+        /// <summary>
+        /// This constructor creates an instance and takes over the context of another controller.
+        /// </summary>
+        /// <param name="controller">The controller object from which the context is taken.</param>
         protected ControllerObject(ControllerObject controller)
         {
             if (controller == null)
@@ -520,8 +548,176 @@ namespace MusicStore.Logic.Controllers
     }
 }
 ```  
-ss
 
+Die Klasse 'GenericController\<E, I\>' implementiert die generische Schnittstelle 'IControllerAccess\<I\>' und stellt zusätzliche Hook-Methoden für die Operationen *Insert*, *Update*, *Delete* und *SaveChanges* bereit. Bevor eine Operation ausgeführt wird, wird die entsprechende 'Before[Operation]'-Hook-Methode aufgerufen, und nach Abschluß der Operation wird die 'After[Operation]'-Hook-Methode aufgerufen. Diese Methoden bieten den Programmierer die Möglichkeit, spezielle Steuercoden zu einem Kontroller hinzuzufügen.
+
+```csharp ({"Type": "FileRef", "File": "Logic/Controllers/GenericController.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using MusicStore.Contracts.Client;
+using MusicStore.Logic.DataContext;
+
+namespace MusicStore.Logic.Controllers
+{
+    /// <inheritdoc cref="IControllerAccess{T}"/>
+    /// <summary>
+    /// This generic class implements the base properties and operations defined in the interface. 
+    /// </summary>
+    /// <typeparam name="E">The entity type of element in the controller.</typeparam>
+    /// <typeparam name="I">The interface type which implements the entity.</typeparam>
+    internal abstract partial class GenericController<E, I> : ControllerObject, IControllerAccess<I>
+        where E : Entities.IdentityObject, I, Contracts.ICopyable<I>, new()
+        where I : Contracts.IIdentifiable
+    {
+        protected abstract IEnumerable<E> Set { get; }
+
+        /// <summary>
+        /// This constructor creates an instance and takes over the context assigned to it.
+        /// </summary>
+        /// <param name="context">Context assigned to the controller.</param>
+        protected GenericController(IContext context)
+            : base(context)
+        {
+
+        }
+        /// <summary>
+        /// This constructor creates an instance and takes over the context of another controller.
+        /// </summary>
+        /// <param name="controller">The controller object from which the context is taken.</param>
+        protected GenericController(ControllerObject controller)
+            : base(controller)
+        {
+
+        }
+
+        #region Sync-Methods
+        /// <inheritdoc />
+        public int Count()
+        {
+            return Context.Count<I, E>();
+        }
+        /// <inheritdoc />
+        public virtual IEnumerable<I> GetAll()
+        {
+            return Set.Select(i =>
+                      {
+                          var result = new E();
+
+                          result.CopyProperties(i);
+                          return result;
+                      });
+        }
+        /// <inheritdoc />
+        public virtual I GetById(int id)
+        {
+            var result = default(E);
+            var item = Set.SingleOrDefault(i => i.Id == id);
+
+            if (item != null)
+            {
+                result = new E();
+                result.CopyProperties(item);
+            }
+            return result;
+        }
+        /// <inheritdoc />
+        public virtual I Create()
+        {
+            return new E();
+        }
+
+        protected virtual void BeforeInserting(I entity)
+        {
+
+        }
+        /// <inheritdoc />
+        public virtual I Insert(I entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            BeforeInserting(entity);
+            var result = Context.Insert<I, E>(entity);
+            AfterInserted(result);
+            return result;
+        }
+        protected virtual void AfterInserted(E entity)
+        {
+
+        }
+
+        protected virtual void BeforeUpdating(I entity)
+        {
+
+        }
+        /// <inheritdoc />
+        public virtual void Update(I entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            BeforeUpdating(entity);
+            var updateEntity = Context.Update<I, E>(entity);
+
+            if (updateEntity != null)
+            {
+                AfterUpdated(updateEntity);
+            }
+            else
+            {
+                throw new Exception("Entity can't find!");
+            }
+        }
+        protected virtual void AfterUpdated(E entity)
+        {
+
+        }
+
+        protected virtual void BeforeDeleting(int id)
+        {
+
+        }
+        /// <inheritdoc />
+        public void Delete(int id)
+        {
+            BeforeDeleting(id);
+            var item = Context.Delete<I, E>(id);
+
+            if (item != null)
+            {
+                AfterDeleted(item);
+            }
+        }
+        protected virtual void AfterDeleted(E entity)
+        {
+
+        }
+
+        protected virtual void BeforeSaveChanges()
+        {
+
+        }
+        /// <inheritdoc />
+        public void SaveChanges()
+        {
+            BeforeSaveChanges();
+            Context.Save();
+            AfterSaveChanges();
+        }
+        protected virtual void AfterSaveChanges()
+        {
+
+        }
+        #endregion Sync-Methods
+    }
+}
+```  
+
+Die generischen Parameter 'E und I' 
+
+
+   
 Nachfolgend der Programmcode für die Erzeuger der Kontroller Objekte:
 
 ```csharp ({"Type": "FileRef", "File": "Logic/Factory.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
