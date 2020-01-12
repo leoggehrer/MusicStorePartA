@@ -61,11 +61,13 @@ Wie aus der Abbildung leicht erkennbar ist, sind für alle Entitäten Schnittste
 
 ### MusicStore.Contracts
 Wie bereits schon erwähnt, befinden sich alle öffentlichen Schnittstelle in diesem Projekt. Die Definitionen der Schnittstellen für die Entities 
-befinden sich im Ordner 'Persistence'. In diesem Ordner befinden sich alle Schnittstellen für die Entitäten, welche im Projekt 'MusicStore.Logic' definiert sind, und eine direkten Bezug zu einer Persistenzquelle (z.B. Datenbank Tabelle) haben. Der Klassendesigner zeigt folgendes Diagramm für die Schnittstellen der persistierenden Entitäten: 
+befinden sich im Ordner 'Persistence'. In diesem Ordner befinden sich alle Schnittstellen für die Entitäten, welche im Projekt 'MusicStore.Logic' definiert sind und eine direkten Bezug zu einer Persistenzquelle (z.B. Datenbank Tabelle) haben. Der Klassendesigner zeigt folgendes Diagramm für die Schnittstellen der persistierenden Entitäten: 
 
 ![Scnittstellen](PersistenceContracts.png)  
  
 Zu beachten ist, dass keine Schnittstelle die Navigationseigenschaften der Entitäten modelliert. Das ist sehr wichtig, weil dadurch unbeabsichtigte Fehler entstehen können. Die Erklärung erfolgt im Teil C Web-Api (REST).  
+
+#### Implementierung der Schnittstellen  
 
 ```csharp ({"Type": "FileRef", "File": "Contracts/IIdentifiable.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 namespace MusicStore.Contracts
@@ -195,7 +197,9 @@ namespace MusicStore.Contracts.Persistence
 ```
 
 Diese Schnittstellen erben von den Schnittstelle 'IIdentifyable' und 'ICopyable'. Somit ist festgelegt, dass alle Entitäten identifizierbar und kopierbar sind.  
-Weiters gibt es Eigenschaften mit der Namensform [Entitätsname]Id - wie zum Beispiel die Eigenschaft 'ArtistId'. Eigenschaften, die diese Form aufweisen, enthalten Referenzdaten zu anderen Entitäten. Zum Beispiel enthält die Eigenschaft 'ArtistId' die Identität der Entität 'Artist'. Die Prüfung auf korrekten Inhalt, dieser Eigenschaften, erfolgt im Projekt MusicStore.Logic'.
+Weiters gibt es Eigenschaften mit der Namensform [Entitätsname]Id - wie zum Beispiel die Eigenschaft 'ArtistId'. Eigenschaften, die diese Form aufweisen, enthalten Referenzdaten zu anderen Entitäten. Zum Beispiel enthält die Eigenschaft 'ArtistId' die Identität der Entität 'Artist'. Die Prüfung auf korrekten Inhalt, dieser Eigenschaften, erfolgt im Projekt MusicStore.Logic'.  
+  
+**Hinweis:** Die Implementierung dieser Schnittstellen erfogt im Projekt 'MusicStore.Logic' im Bereich 'Entities'.
 
 Im Projekt ist noch eine weitere Schnittstelle definiert. Diese Schnittstelle befindet sich im Ordner 'Client' und stellt den Zugriff auf das Kontroller-Objekt aus dem Projekt 'MusicStore.Logic' dar. Alle Kontroller, im Projekt 'MusicStroe.Logic', implementieren diese Schnittstelle.  
 
@@ -260,9 +264,11 @@ namespace MusicStore.Contracts.Client
 ```  
 Die Definition dieser Schnittstelle ist generisch und für diesen generischen Parameter können alle Schnittstellen vom Typ 'IIdentifyable' eingestezt werden. 
 Diese [generische Schnittstelle](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/generics/generic-interfaces) ist ein großer Vorteil, weil diese nur einmal definiert werden muss und für alle Kontrollertypen verwendet werden kann.  
-Diese Schnittstelle ist von IDisposable abgeleitet. Damit wird folgende Regel in Betracht gezogen. Alle Komponenten, welche eine Ressource beinhalten oder beinhalten könnten, müssen diese Schnittstelle implementieren. Aus dieser Regel ergibt sich, dass alle Objekte, welche diese Schnittstelle implementieren, mit dem Schlüsselwort 'using' verwendet werden müssen. Nachdem ein Kontroller einen 'DbContext' beinhalten kann, muss dieser ebenfalls wieder freigegeben werden. 
+Diese Schnittstelle ist von IDisposable abgeleitet. Damit wird folgende Regel in Betracht gezogen. Alle Komponenten, welche eine Ressource beinhalten oder beinhalten könnten, müssen diese Schnittstelle implementieren. Aus dieser Regel ergibt sich, dass alle Objekte, welche diese Schnittstelle implementieren, mit dem Schlüsselwort *'using'* verwendet werden müssen. Nachdem ein Kontroller einen 'DbContext' beinhalten kann, muss dieser ebenfalls wieder freigegeben werden. 
 
-Die Ordnerstruktur von 'MusicStore.Contracts':
+**Hinweis:** Die Implementierung dieser Schnittstelle erfogt im Projekt 'MusicStore.Logic' im Bereich 'Controllers'.
+
+Zusammenfassend - die Ordnerstruktur von 'MusicStore.Contracts':
 
 ![OrdnerStruktur](MusicStoreContracts.png)
 
