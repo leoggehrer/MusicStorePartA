@@ -549,7 +549,7 @@ namespace MusicStore.Logic.Controllers
 }
 ```  
 
-Die Klasse 'GenericController\<E, I\>' implementiert die generische Schnittstelle 'IControllerAccess\<I\>' und stellt zusätzliche Hook-Methoden für die Operationen *Insert*, *Update*, *Delete* und *SaveChanges* bereit. Bevor eine Operation ausgeführt wird, wird die entsprechende 'Before[Operation]'-Hook-Methode aufgerufen, und nach Abschluß der Operation wird die 'After[Operation]'-Hook-Methode aufgerufen. Diese Methoden bieten den Programmierer die Möglichkeit, spezielle Steuercoden zu einem Kontroller hinzuzufügen.
+Die Klasse 'GenericController\<E, I\>' implementiert die generische Schnittstelle 'IControllerAccess\<I\>' und stellt zusätzliche Hook-Methoden für die Operationen *Insert*, *Update*, *Delete* und *SaveChanges* bereit. Bevor eine Operation ausgeführt wird, wird die entsprechende 'Before[Operation]'-Hook-Methode aufgerufen, und nach Abschluß der Operation wird die 'After[Operation]'-Hook-Methode aufgerufen. Diese Methoden bieten den Programmierer die Möglichkeit, speziellen Steuercode zu einem Kontroller hinzuzufügen.
 
 ```csharp ({"Type": "FileRef", "File": "Logic/Controllers/GenericController.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 using System;
@@ -715,8 +715,12 @@ namespace MusicStore.Logic.Controllers
 ```  
 
 Erklärung der generischen Parameter 'E und I':  
-I...Muss eine Schnittstelle und vom Typ 'IIdentifiable' sein.
-E...Muss ein Typ IdentityObject sein, muss die Schnittstellen I und ICopyable\<I\> implementieren und einen parameterlosen Konstruktor bereitstellen.
+
++ I...Muss eine Schnittstelle und vom Typ 'IIdentifiable' sein.
++ E...Muss ein Typ IdentityObject sein, muss die Schnittstellen I und ICopyable\<I\> implementieren und einen parameterlosen Konstruktor bereitstellen.
+
+Als Zugriff für den Context verwendet der 'GenericController\<E, I\>' die Schnittstelle 'IContext'. Mit diesem Konzept wird der Kontroller von der konkreten Persistierung entkoppelt. Das bedeutet, dass der Kontroller nicht weiß, ob die Persistierung mit einer Datenbank oder einer Datei (Serialisierung) erfolgt. Mehr dazu folgt im Abschnitt **DataContext**.  
+Die Klasse 'MusicStoreController\<E, I\>' ist das Bindeglied zwischen den allgemeinen Kontroller-Klassen und den projektspezifischen Kontroller-Klassen. Das bedeutet, dass alle Klassen, welche von 'MusicStoreController\<E, I\>' abgeleitet sind, Domain-Klassen sind. Die Klassen 'ControllerObject' und 'GenericController\<E, I\>' sind unabhängig vom Domain-Bereich und könnten auch für andere Projekte verwendet werden!
 
 ```csharp ({"Type": "FileRef", "File": "Logic/Controllers/Persistence/MusicStoreController.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 using MusicStore.Logic.DataContext;
@@ -752,7 +756,33 @@ namespace MusicStore.Logic.Controllers.Persistence
     }
 }
 ```  
-  
+
+Die Klasse 'MusicStoreController\<E, I\>' führt eine Umwandlung vom allgemeinen 'Context' zum speziellen 'MusicStoreContext' durch. In diesem konkreten Kontext sind die Auflistungen der entsprechenden Entitäten hinterlegt. Mehr dazu folgt im Abschnitt **DataContext**.  
+
+Nun können die entsprechenden Entitäts-Kontroller konkretisiert werden. Nachfolgend die konkretisierten Kontroller für den MusicStroe:
+
+```csharp ({"Type": "FileRef", "File": "Logic/Controllers/Persistence/AlbumController.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using MusicStore.Logic.DataContext;
+using System.Collections.Generic;
+
+namespace MusicStore.Logic.Controllers.Persistence
+{
+    internal partial class AlbumController : MusicStoreController<Entities.Persistence.Album, Contracts.Persistence.IAlbum>
+    {
+        protected override IEnumerable<Entities.Persistence.Album> Set => MusicStoreContext.Albums;
+
+        public AlbumController(IContext context)
+            : base(context)
+        {
+        }
+        public AlbumController(ControllerObject controller)
+            : base(controller)
+        {
+        }
+    }
+}
+```
+
 Nachfolgend der Programmcode für die Erzeuger der Kontroller Objekte:
 
 ```csharp ({"Type": "FileRef", "File": "Logic/Factory.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
