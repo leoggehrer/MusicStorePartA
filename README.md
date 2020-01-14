@@ -1221,6 +1221,194 @@ namespace MusicStore.Logic.DataContext
 }
 ```  
 
+Für die Datenbank müssen einige Konigurationen vorgenommen werden. Diese Konfigurationen definieren die Eigenschaften auf der Datenbank (Feldgröße, Not Nullable usw.). Aus diesem Grund gibt es einen Abschnitt 'Configuration' in der Klasse 'DbMusicStoreContext'. Im Abschnitt 'Configuration' sind die einzelenen Entitäten mittels Fluent Api konfiguriert worden.  
+
+```csharp ({"Type": "FileRef", "File": "DataContext/Db/DbMusicStoreContext.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using MusicStore.Contracts;
+using MusicStore.Logic.Entities;
+using MusicStore.Logic.Entities.Persistence;
+
+namespace MusicStore.Logic.DataContext.Db
+{
+    internal partial class DbMusicStoreContext : DbContext, IContext, IMusicStoreContext
+    {
+        private static string ConnectionString { get; set; } = "Data Source=(localdb)\\MSSQLLocalDb;Database=MusicStoreDb;Integrated Security=True;";
+
+        static DbMusicStoreContext()
+        {
+
+        }
+
+        public IEnumerable<Genre> Genres => GenreSet;
+        public IEnumerable<Artist> Artists => ArtistSet;
+        public IEnumerable<Album> Albums => AlbumSet;
+        public IEnumerable<Track> Tracks => TrackSet;
+
+        public DbSet<Genre> GenreSet { get; set; }
+        public DbSet<Artist> ArtistSet { get; set; }
+        public DbSet<Album> AlbumSet { get; set; }
+        public DbSet<Track> TrackSet { get; set; }
+
+        #region Configuration
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+			
+            optionsBuilder.UseSqlServer(ConnectionString);
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Genre>()
+                .ToTable(nameof(Genre))
+                .HasKey(p => p.Id);
+            modelBuilder.Entity<Genre>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+            modelBuilder.Entity<Genre>()
+                .Property(p => p.Name)
+                .IsRequired()
+                .HasMaxLength(256);
+
+            modelBuilder.Entity<Artist>()
+                .ToTable(nameof(Artist))
+                .HasKey(p => p.Id);
+            modelBuilder.Entity<Artist>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+            modelBuilder.Entity<Artist>()
+                .Property(p => p.Name)
+                .IsRequired()
+                .HasMaxLength(1024);
+
+            modelBuilder.Entity<Album>()
+                .ToTable(nameof(Album))
+                .HasKey(p => p.Id);
+            modelBuilder.Entity<Album>()
+                .HasIndex(p => p.Title)
+                .IsUnique();
+            modelBuilder.Entity<Album>()
+                .Property(p => p.Title)
+                .IsRequired()
+                .HasMaxLength(1024);
+
+            modelBuilder.Entity<Track>()
+                .ToTable(nameof(Track))
+                .HasKey(p => p.Id);
+            modelBuilder.Entity<Track>()
+                .HasIndex(p => p.Title);
+            modelBuilder.Entity<Track>()
+                .Property(p => p.Title)
+                .IsRequired()
+                .HasMaxLength(1024);
+            modelBuilder.Entity<Track>()
+                .Property(p => p.Composer)
+                .HasMaxLength(512);
+        }
+        #endregion Configuration
+
+        #region IContext
+        #region Sync-Methods
+        public int Count<I, E>()
+            where I : IIdentifiable
+            where E : IdentityObject, I
+        {
+            return Set<E>().Count();
+        }
+        public E Create<I, E>()
+            where I : IIdentifiable
+            where E : IdentityObject, ICopyable<I>, I, new()
+        {
+            return new E();
+        }
+        public E Insert<I, E>(I entity)
+            where I : IIdentifiable
+            where E : IdentityObject, ICopyable<I>, I, new()
+        {
+            E newEntity = new E();
+
+            newEntity.CopyProperties(entity);
+            newEntity.Id = 0;
+            try
+            {
+                if (Entry(newEntity).State == EntityState.Detached)
+                {
+                    Entry(newEntity).State = EntityState.Added;
+                }
+            }
+            catch
+            {
+                Entry(newEntity).State = EntityState.Detached;
+                throw;
+            }
+            return newEntity;
+        }
+        public E Update<I, E>(I entity)
+            where I : IIdentifiable
+            where E : IdentityObject, ICopyable<I>, I, new()
+        {
+            var updEntity = new E();
+
+            updEntity.CopyProperties(entity);
+
+            var omEntity = Entry(updEntity);
+
+            if (omEntity.State == EntityState.Detached)
+            {
+                E attachedEntity = Set<E>().Local.SingleOrDefault(e => e.Id == entity.Id);
+
+                if (attachedEntity != null)
+                {
+                    Entry(attachedEntity).CurrentValues.SetValues(entity);
+                    Entry(attachedEntity).State = EntityState.Modified;
+                }
+                else
+                {
+                    omEntity.State = EntityState.Modified;
+                }
+            }
+            else
+            {
+                EntityState saveState = omEntity.State;
+
+                try
+                {
+                    Entry(entity).State = EntityState.Modified;
+                }
+                catch
+                {
+                    Entry(entity).State = saveState;
+                    throw;
+                }
+            }
+            return omEntity.Entity;
+        }
+        public E Delete<I, E>(int id)
+            where I : IIdentifiable
+            where E : IdentityObject, I
+        {
+            E result = Set<E>().SingleOrDefault(i => i.Id == id);
+
+            if (result != null)
+            {
+                Set<E>().Remove(result);
+            }
+            return result;
+        }
+        public void Save()
+        {
+            base.SaveChanges();
+        }
+		#endregion Sync-Methods
+        #endregion IContext
+    }
+}
+```  
+
 ```csharp ({"Type": "FileRef", "File": "DataContext/Csv/CsvMusicStoreContext.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 using System.Collections.Generic;
 
@@ -1493,6 +1681,6 @@ Die Überladung der Methode 'Create\<T\>(object sharedController)' bietet die M�
 
 ## Erweiterung Teil B  
 
-Im nächsten Teil (PartB) soll die Schnittstelle 'IControllerAccess\<T\>' um asynchrone Methoden erweitert werden. Das asynchrone Programmierkonzept zählt zu den wesentlichsten Erweiterung im DotNet-Framework und wird in der Programmiersprache C# seit der Version 5.0 unterstützt. Informationen zu diesem Thema finden sich unter folgendem Link [Asynchrone Programmierung](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/concepts/async/index).  
+Im nächsten Teil (PartB) soll das System um asynchrone Methoden erweitert werden. Das asynchrone Programmierkonzept zählt zu den wesentlichsten Erweiterung im DotNet-Framework und wird in der Programmiersprache C# seit der Version 5.0 unterstützt. Informationen zu diesem Thema finden sich unter folgendem Link [Asynchrone Programmierung](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/concepts/async/index).  
 
 **Viel Spaß beim Erstellen!**
