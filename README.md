@@ -1490,7 +1490,7 @@ Der Klient hat die Möglichkeit, über die Eigenschaft 'Persistence' den Persist
  Die Methode 'Create\<T\>()' instanziiert ein Kontroller-Objekt für den entsprechenden Schnittstellen Typ 'T', und gibt deren Schnittstelle 'IControllerAccess<T>' an den Aufrufer. Es ist wichtig, dass nur die Schnittstelle nach außen geleitet wird und nicht das Objekt direkt. Dadurch wird der Klientzugriff auf den Kontroller abstrahiert und die Kapselung der Geschäftslogik unterstützt.  
 Die Überladung der Methode 'Create\<T\>(object sharedController)' bietet die Möglichkeit, dass das DataContext-Objekt geteilt werden kann. Dies bedeutet, dass das DataContext-Objekt vom Parameter-Objekt wieder verwendet wird und dem neu erstellten Kontroller-Objekt zugeordnet wird. Dadurch können Datenmanipulationen, von mehreren Kontroller-Objekten, innerhalb einer Transaktion durchgeführt werden.   
 
-### Erweiterung Teil B  
+## Erweiterung Teil B  
 
 Im nächsten Teil (PartB) soll die Schnittstelle 'IControllerAccess<T>' um asynchrone Methoden erweitert werden. Das asynchrone Programmierkonzept zählt zu den wesentlichsten Erweiterung im DotNet-Framework und wird in der Programmiersprache C# seit der Version 5.0 unterstützt. Informationen zu diesem Thema finden sich unter folgendem Link [Asynchrone Programmierung](https://docs.microsoft.com/de-de/dotnet/csharp/programming-guide/concepts/async/index).  
 
