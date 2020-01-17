@@ -273,7 +273,8 @@ namespace MusicStore.Contracts.Client
         /// The entity is being tracked by the context and exists in the repository, and some or all of its property values have been modified.
         /// </summary>
         /// <param name="entity">The entity which is to be updated.</param>
-        void Update(T entity);
+        /// <returns>The modified entity.</returns>
+        T Update(T entity);
         /// <summary>
         /// Removes the entity from the repository with the appropriate identity.
         /// </summary>
@@ -331,7 +332,7 @@ namespace MusicStore.Logic.Entities
     internal abstract partial class IdentityObject : Contracts.IIdentifiable
     {
         /// <inheritdoc />
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
     }
 }
 ```  
@@ -568,6 +569,7 @@ Die Klasse 'GenericController\<E, I\>' implementiert die generische Schnittstell
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonBase.Extensions;
 using MusicStore.Contracts.Client;
 using MusicStore.Logic.DataContext;
 
@@ -640,15 +642,23 @@ namespace MusicStore.Logic.Controllers
             return new E();
         }
 
-        protected virtual void BeforeInserting(I entity)
+        protected virtual void BeforeInserting(E entity)
         {
 
         }
         /// <inheritdoc />
         public virtual I Insert(I entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            entity.CheckArgument(nameof(entity));
+
+            var entityModel = new E();
+
+            entityModel.CopyProperties(entity);
+            return Insert(entityModel);
+        }
+        public virtual I Insert(E entity)
+        {
+            entity.CheckArgument(nameof(entity));
 
             BeforeInserting(entity);
             var result = Context.Insert<I, E>(entity);
@@ -660,15 +670,23 @@ namespace MusicStore.Logic.Controllers
 
         }
 
-        protected virtual void BeforeUpdating(I entity)
+        protected virtual void BeforeUpdating(E entity)
         {
 
         }
         /// <inheritdoc />
-        public virtual void Update(I entity)
+        public virtual I Update(I entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            entity.CheckArgument(nameof(entity));
+
+            var entityModel = new E();
+
+            entityModel.CopyProperties(entity);
+            return Update(entityModel);
+        }
+        public virtual I Update(E entity)
+        {
+            entity.CheckArgument(nameof(entity));
 
             BeforeUpdating(entity);
             var updateEntity = Context.Update<I, E>(entity);
@@ -681,6 +699,7 @@ namespace MusicStore.Logic.Controllers
             {
                 throw new Exception("Entity can't find!");
             }
+            return updateEntity;
         }
         protected virtual void AfterUpdated(E entity)
         {
@@ -924,11 +943,11 @@ namespace MusicStore.Logic.DataContext
             where I : IIdentifiable
             where E : IdentityObject, ICopyable<I>, I, new();
 
-        E Insert<I, E>(I entity)
+        E Insert<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, ICopyable<I>, I, new();
 
-        E Update<I, E>(I entity)
+        E Update<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, ICopyable<I>, I, new();
 
@@ -963,10 +982,10 @@ namespace MusicStore.Logic.DataContext
         public abstract E Create<I, E>()
             where I : IIdentifiable
             where E : IdentityObject, I, ICopyable<I>, new();
-        public abstract E Insert<I, E>(I entity)
+        public abstract E Insert<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, I, ICopyable<I>, new();
-        public abstract E Update<I, E>(I entity)
+        public abstract E Update<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, I, ICopyable<I>, new();
         public abstract E Delete<I, E>(int id)
@@ -1090,13 +1109,13 @@ namespace MusicStore.Logic.DataContext
     abstract partial class MusicStoreFileContext : FileContext, IMusicStoreContext
     {
         private readonly List<Entities.Persistence.Genre> genres = null;
-        public IEnumerable<Entities.Persistence.Genre> Genres => genres;
+        public IQueryable<Entities.Persistence.Genre> Genres => genres.AsQueryable<Entities.Persistence.Genre>();
         private readonly List<Entities.Persistence.Artist> artists = null;
-        public IEnumerable<Entities.Persistence.Artist> Artists => artists;
+        public IQueryable<Entities.Persistence.Artist> Artists => artists.AsQueryable<Entities.Persistence.Artist>();
         private readonly List<Entities.Persistence.Album> albums = null;
-        public IEnumerable<Entities.Persistence.Album> Albums => albums;
+        public IQueryable<Entities.Persistence.Album> Albums => albums.AsQueryable<Entities.Persistence.Album>();
         private readonly List<Entities.Persistence.Track> tracks = null;
-        public IEnumerable<Entities.Persistence.Track> Tracks => tracks;
+        public IQueryable<Entities.Persistence.Track> Tracks => tracks.AsQueryable<Entities.Persistence.Track>();
 
         public MusicStoreFileContext()
         {
@@ -1144,7 +1163,7 @@ namespace MusicStore.Logic.DataContext
         {
             return new E();
         }
-        public override E Insert<I, E>(I entity)
+        public override E Insert<I, E>(E entity)
         {
             entity.CheckArgument(nameof(entity));
 
@@ -1155,7 +1174,7 @@ namespace MusicStore.Logic.DataContext
             Set<I, E>().Add(result);
             return result;
         }
-        public override E Update<I, E>(I entity)
+        public override E Update<I, E>(E entity)
         {
             entity.CheckArgument(nameof(entity));
 
@@ -1226,6 +1245,7 @@ Für die Datenbank müssen einige Konigurationen vorgenommen werden. Diese Konfi
 ```csharp ({"Type": "FileRef", "File": "DataContext/Db/DbMusicStoreContext.cs", "StartTag": "//MdStart", "EndTag": "//MdEnd" })
 using System.Collections.Generic;
 using System.Linq;
+using CommonBase.Extensions;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.Contracts;
 using MusicStore.Logic.Entities;
@@ -1242,10 +1262,10 @@ namespace MusicStore.Logic.DataContext.Db
 
         }
 
-        public IEnumerable<Genre> Genres => GenreSet;
-        public IEnumerable<Artist> Artists => ArtistSet;
-        public IEnumerable<Album> Albums => AlbumSet;
-        public IEnumerable<Track> Tracks => TrackSet;
+        public IQueryable<Genre> Genres => GenreSet;
+        public IQueryable<Artist> Artists => ArtistSet;
+        public IQueryable<Album> Albums => AlbumSet;
+        public IQueryable<Track> Tracks => TrackSet;
 
         public DbSet<Genre> GenreSet { get; set; }
         public DbSet<Artist> ArtistSet { get; set; }
@@ -1325,67 +1345,23 @@ namespace MusicStore.Logic.DataContext.Db
         {
             return new E();
         }
-        public E Insert<I, E>(I entity)
+        public E Insert<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, ICopyable<I>, I, new()
         {
-            E newEntity = new E();
+            entity.CheckArgument(nameof(entity));
 
-            newEntity.CopyProperties(entity);
-            newEntity.Id = 0;
-            try
-            {
-                if (Entry(newEntity).State == EntityState.Detached)
-                {
-                    Entry(newEntity).State = EntityState.Added;
-                }
-            }
-            catch
-            {
-                Entry(newEntity).State = EntityState.Detached;
-                throw;
-            }
-            return newEntity;
+            Set<E>().Add(entity);
+            return entity;
         }
-        public E Update<I, E>(I entity)
+        public E Update<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, ICopyable<I>, I, new()
         {
-            var updEntity = new E();
+            entity.CheckArgument(nameof(entity));
 
-            updEntity.CopyProperties(entity);
-
-            var omEntity = Entry(updEntity);
-
-            if (omEntity.State == EntityState.Detached)
-            {
-                E attachedEntity = Set<E>().Local.SingleOrDefault(e => e.Id == entity.Id);
-
-                if (attachedEntity != null)
-                {
-                    Entry(attachedEntity).CurrentValues.SetValues(entity);
-                    Entry(attachedEntity).State = EntityState.Modified;
-                }
-                else
-                {
-                    omEntity.State = EntityState.Modified;
-                }
-            }
-            else
-            {
-                EntityState saveState = omEntity.State;
-
-                try
-                {
-                    Entry(entity).State = EntityState.Modified;
-                }
-                catch
-                {
-                    Entry(entity).State = saveState;
-                    throw;
-                }
-            }
-            return omEntity.Entity;
+            Set<E>().Update(entity);
+            return entity;
         }
         public E Delete<I, E>(int id)
             where I : IIdentifiable

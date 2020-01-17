@@ -14,10 +14,10 @@ namespace MusicStore.Logic.DataContext
         public abstract E Create<I, E>()
             where I : IIdentifiable
             where E : IdentityObject, I, ICopyable<I>, new();
-        public abstract E Insert<I, E>(I entity)
+        public abstract E Insert<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, I, ICopyable<I>, new();
-        public abstract E Update<I, E>(I entity)
+        public abstract E Update<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, I, ICopyable<I>, new();
         public abstract E Delete<I, E>(int id)

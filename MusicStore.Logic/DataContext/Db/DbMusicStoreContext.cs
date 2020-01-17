@@ -2,6 +2,7 @@
 //MdStart
 using System.Collections.Generic;
 using System.Linq;
+using CommonBase.Extensions;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.Contracts;
 using MusicStore.Logic.Entities;
@@ -18,10 +19,10 @@ namespace MusicStore.Logic.DataContext.Db
 
         }
 
-        public IEnumerable<Genre> Genres => GenreSet;
-        public IEnumerable<Artist> Artists => ArtistSet;
-        public IEnumerable<Album> Albums => AlbumSet;
-        public IEnumerable<Track> Tracks => TrackSet;
+        public IQueryable<Genre> Genres => GenreSet;
+        public IQueryable<Artist> Artists => ArtistSet;
+        public IQueryable<Album> Albums => AlbumSet;
+        public IQueryable<Track> Tracks => TrackSet;
 
         public DbSet<Genre> GenreSet { get; set; }
         public DbSet<Artist> ArtistSet { get; set; }
@@ -101,67 +102,23 @@ namespace MusicStore.Logic.DataContext.Db
         {
             return new E();
         }
-        public E Insert<I, E>(I entity)
+        public E Insert<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, ICopyable<I>, I, new()
         {
-            E newEntity = new E();
+            entity.CheckArgument(nameof(entity));
 
-            newEntity.CopyProperties(entity);
-            newEntity.Id = 0;
-            try
-            {
-                if (Entry(newEntity).State == EntityState.Detached)
-                {
-                    Entry(newEntity).State = EntityState.Added;
-                }
-            }
-            catch
-            {
-                Entry(newEntity).State = EntityState.Detached;
-                throw;
-            }
-            return newEntity;
+            Set<E>().Add(entity);
+            return entity;
         }
-        public E Update<I, E>(I entity)
+        public E Update<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, ICopyable<I>, I, new()
         {
-            var updEntity = new E();
+            entity.CheckArgument(nameof(entity));
 
-            updEntity.CopyProperties(entity);
-
-            var omEntity = Entry(updEntity);
-
-            if (omEntity.State == EntityState.Detached)
-            {
-                E attachedEntity = Set<E>().Local.SingleOrDefault(e => e.Id == entity.Id);
-
-                if (attachedEntity != null)
-                {
-                    Entry(attachedEntity).CurrentValues.SetValues(entity);
-                    Entry(attachedEntity).State = EntityState.Modified;
-                }
-                else
-                {
-                    omEntity.State = EntityState.Modified;
-                }
-            }
-            else
-            {
-                EntityState saveState = omEntity.State;
-
-                try
-                {
-                    Entry(entity).State = EntityState.Modified;
-                }
-                catch
-                {
-                    Entry(entity).State = saveState;
-                    throw;
-                }
-            }
-            return omEntity.Entity;
+            Set<E>().Update(entity);
+            return entity;
         }
         public E Delete<I, E>(int id)
             where I : IIdentifiable

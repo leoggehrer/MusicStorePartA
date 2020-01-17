@@ -17,11 +17,11 @@ namespace MusicStore.Logic.DataContext
             where I : IIdentifiable
             where E : IdentityObject, ICopyable<I>, I, new();
 
-        E Insert<I, E>(I entity)
+        E Insert<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, ICopyable<I>, I, new();
 
-        E Update<I, E>(I entity)
+        E Update<I, E>(E entity)
             where I : IIdentifiable
             where E : IdentityObject, ICopyable<I>, I, new();
 

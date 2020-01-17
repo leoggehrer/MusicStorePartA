@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonBase.Extensions;
 using MusicStore.Contracts.Client;
 using MusicStore.Logic.DataContext;
 
@@ -75,15 +76,23 @@ namespace MusicStore.Logic.Controllers
             return new E();
         }
 
-        protected virtual void BeforeInserting(I entity)
+        protected virtual void BeforeInserting(E entity)
         {
 
         }
         /// <inheritdoc />
         public virtual I Insert(I entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            entity.CheckArgument(nameof(entity));
+
+            var entityModel = new E();
+
+            entityModel.CopyProperties(entity);
+            return Insert(entityModel);
+        }
+        public virtual I Insert(E entity)
+        {
+            entity.CheckArgument(nameof(entity));
 
             BeforeInserting(entity);
             var result = Context.Insert<I, E>(entity);
@@ -95,15 +104,23 @@ namespace MusicStore.Logic.Controllers
 
         }
 
-        protected virtual void BeforeUpdating(I entity)
+        protected virtual void BeforeUpdating(E entity)
         {
 
         }
         /// <inheritdoc />
-        public virtual void Update(I entity)
+        public virtual I Update(I entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            entity.CheckArgument(nameof(entity));
+
+            var entityModel = new E();
+
+            entityModel.CopyProperties(entity);
+            return Update(entityModel);
+        }
+        public virtual I Update(E entity)
+        {
+            entity.CheckArgument(nameof(entity));
 
             BeforeUpdating(entity);
             var updateEntity = Context.Update<I, E>(entity);
@@ -116,6 +133,7 @@ namespace MusicStore.Logic.Controllers
             {
                 throw new Exception("Entity can't find!");
             }
+            return updateEntity;
         }
         protected virtual void AfterUpdated(E entity)
         {
