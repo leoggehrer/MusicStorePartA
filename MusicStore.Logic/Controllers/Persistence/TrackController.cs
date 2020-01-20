@@ -8,7 +8,7 @@ namespace MusicStore.Logic.Controllers.Persistence
     /// <summary>
     /// This class implements the specified controller for the entity 'Track'.
     /// </summary>
-    internal partial class TrackController : MusicStoreController<Entities.Persistence.Track, Contracts.Persistence.ITrack>
+    internal partial class TrackController : MusicStoreController<Contracts.Persistence.ITrack, Entities.Persistence.Track>
     {
         protected override IEnumerable<Entities.Persistence.Track> Set => MusicStoreContext.Tracks;
 

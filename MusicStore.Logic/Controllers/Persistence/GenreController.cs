@@ -8,7 +8,7 @@ namespace MusicStore.Logic.Controllers.Persistence
     /// <summary>
     /// This class implements the specified controller for the entity 'Genre'.
     /// </summary>
-    internal partial class GenreController : MusicStoreController<Entities.Persistence.Genre, Contracts.Persistence.IGenre>
+    internal partial class GenreController : MusicStoreController<Contracts.Persistence.IGenre, Entities.Persistence.Genre>
     {
         protected override IEnumerable<Entities.Persistence.Genre> Set => MusicStoreContext.Genres;
 

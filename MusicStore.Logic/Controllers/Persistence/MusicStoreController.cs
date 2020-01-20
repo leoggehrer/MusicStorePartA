@@ -7,9 +7,9 @@ namespace MusicStore.Logic.Controllers.Persistence
     /// <summary>
     /// This class is the specification of a generic controller to a project controller.
     /// </summary>
-    internal abstract partial class MusicStoreController<E, I> : GenericController<E, I>
-       where E : Entities.IdentityObject, I, Contracts.ICopyable<I>, new()
+    internal abstract partial class MusicStoreController<I, E> : GenericController<I, E>
        where I : Contracts.IIdentifiable
+       where E : Entities.IdentityObject, I, Contracts.ICopyable<I>, new()
     {
         protected IMusicStoreContext MusicStoreContext => (IMusicStoreContext)Context;
 

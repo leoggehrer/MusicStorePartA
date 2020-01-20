@@ -15,9 +15,9 @@ namespace MusicStore.Logic.Controllers
     /// </summary>
     /// <typeparam name="E">The entity type of element in the controller.</typeparam>
     /// <typeparam name="I">The interface type which implements the entity.</typeparam>
-    internal abstract partial class GenericController<E, I> : ControllerObject, IControllerAccess<I>
-        where E : Entities.IdentityObject, I, Contracts.ICopyable<I>, new()
+    internal abstract partial class GenericController<I, E> : ControllerObject, IControllerAccess<I>
         where I : Contracts.IIdentifiable
+        where E : Entities.IdentityObject, I, Contracts.ICopyable<I>, new()
     {
         protected abstract IEnumerable<E> Set { get; }
 
