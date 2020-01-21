@@ -581,9 +581,9 @@ namespace MusicStore.Logic.Controllers
     /// </summary>
     /// <typeparam name="E">The entity type of element in the controller.</typeparam>
     /// <typeparam name="I">The interface type which implements the entity.</typeparam>
-    internal abstract partial class GenericController<E, I> : ControllerObject, IControllerAccess<I>
-        where E : Entities.IdentityObject, I, Contracts.ICopyable<I>, new()
+    internal abstract partial class GenericController<I, E> : ControllerObject, IControllerAccess<I>
         where I : Contracts.IIdentifiable
+        where E : Entities.IdentityObject, I, Contracts.ICopyable<I>, new()
     {
         protected abstract IEnumerable<E> Set { get; }
 
@@ -762,9 +762,9 @@ namespace MusicStore.Logic.Controllers.Persistence
     /// <summary>
     /// This class is the specification of a generic controller to a project controller.
     /// </summary>
-    internal abstract partial class MusicStoreController<E, I> : GenericController<E, I>
-       where E : Entities.IdentityObject, I, Contracts.ICopyable<I>, new()
+    internal abstract partial class MusicStoreController<I, E> : GenericController<I, E>
        where I : Contracts.IIdentifiable
+       where E : Entities.IdentityObject, I, Contracts.ICopyable<I>, new()
     {
         protected IMusicStoreContext MusicStoreContext => (IMusicStoreContext)Context;
 
@@ -802,7 +802,7 @@ namespace MusicStore.Logic.Controllers.Persistence
     /// <summary>
     /// This class implements the specified controller for the entity 'Album'.
     /// </summary>
-    internal partial class AlbumController : MusicStoreController<Entities.Persistence.Album, Contracts.Persistence.IAlbum>
+    internal partial class AlbumController : MusicStoreController<Contracts.Persistence.IAlbum, Entities.Persistence.Album>
     {
         protected override IEnumerable<Entities.Persistence.Album> Set => MusicStoreContext.Albums;
 
@@ -835,7 +835,7 @@ namespace MusicStore.Logic.Controllers.Persistence
     /// <summary>
     /// This class implements the specified controller for the entity 'Genre'.
     /// </summary>
-    internal partial class GenreController : MusicStoreController<Entities.Persistence.Genre, Contracts.Persistence.IGenre>
+    internal partial class GenreController : MusicStoreController<Contracts.Persistence.IGenre, Entities.Persistence.Genre>
     {
         protected override IEnumerable<Entities.Persistence.Genre> Set => MusicStoreContext.Genres;
 
@@ -864,7 +864,7 @@ namespace MusicStore.Logic.Controllers.Persistence
     /// <summary>
     /// This class implements the specified controller for the entity 'Artist'.
     /// </summary>
-    internal partial class ArtistController : MusicStoreController<Entities.Persistence.Artist, Contracts.Persistence.IArtist>
+    internal partial class ArtistController : MusicStoreController<Contracts.Persistence.IArtist, Entities.Persistence.Artist>
     {
         protected override IEnumerable<Entities.Persistence.Artist> Set => MusicStoreContext.Artists;
 
@@ -897,7 +897,7 @@ namespace MusicStore.Logic.Controllers.Persistence
     /// <summary>
     /// This class implements the specified controller for the entity 'Track'.
     /// </summary>
-    internal partial class TrackController : MusicStoreController<Entities.Persistence.Track, Contracts.Persistence.ITrack>
+    internal partial class TrackController : MusicStoreController<Contracts.Persistence.ITrack, Entities.Persistence.Track>
     {
         protected override IEnumerable<Entities.Persistence.Track> Set => MusicStoreContext.Tracks;
 
