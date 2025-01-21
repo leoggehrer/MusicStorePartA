@@ -45,7 +45,7 @@ Die Aufteilung, für den Teil A, erfolgt nach der folgenden Struktur:
 
 ### Datenstruktur
 
-Die Datenstruktur vom 'MusicStore' ist überschaulich und besteht im wesentlichen aus 4 Komponenten welche in der folgenden Tabelle zusammengefasst sind:
+Die Datenstruktur vom 'MusicStore' ist einfach und besteht im wesentlichen aus 4 Komponenten welche in der folgenden Tabelle zusammengefasst sind:
 
 |Komponente|Beschreibung|Grösse|Mussfeld|Eindeutig|
 |---|---|---|---|---|
